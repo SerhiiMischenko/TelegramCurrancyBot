@@ -14,12 +14,12 @@ public class CurrencyService {
     public static String getCurrencyRate(String message, CurrencyModel model) throws IOException, ParseException {
         URL url = new URL("https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5");
         Scanner scanner = new Scanner((InputStream) url.getContent());
-        String result = "";
+        StringBuilder result = new StringBuilder();
         while (scanner.hasNext()){
-            result += scanner.nextLine();
+            result.append(scanner.nextLine());
         }
 
-        JSONArray jsonArray = new JSONArray(result);
+        JSONArray jsonArray = new JSONArray(result.toString());
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject object = jsonArray.getJSONObject(i);
