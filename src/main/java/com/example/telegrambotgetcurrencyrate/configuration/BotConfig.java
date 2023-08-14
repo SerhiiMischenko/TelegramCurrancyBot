@@ -1,4 +1,4 @@
-package configuration;
+package com.example.telegrambotgetcurrencyrate.configuration;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
