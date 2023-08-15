@@ -11,8 +11,8 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class CurrencyService {
-    public static String getCurrencyRate(String message, CurrencyModel model) throws IOException, ParseException {
-        URL url = new URL("https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5");
+    public static String getCurrencyRate(String message, CurrencyModel model, String currencyName) throws IOException, ParseException {
+        URL url = new URL("https://api.monobank.ua/bank/currency");
         Scanner scanner = new Scanner((InputStream) url.getContent());
         StringBuilder result = new StringBuilder();
         while (scanner.hasNext()){
@@ -23,15 +23,14 @@ public class CurrencyService {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject object = jsonArray.getJSONObject(i);
-            if(object.getString("ccy").equalsIgnoreCase(message)){
-                model.setCcy(object.getString("ccy"));
-                model.setBase_ccy(object.getString("base_ccy"));
-                model.setBuy(object.getDouble("buy"));
-                model.setSale(object.getDouble("sale"));
+            if(object.getInt("currencyCodeA") == Integer.parseInt(message)){
+                model.setCurrencyCodeA(object.getInt("currencyCodeA"));
+                model.setRateBuy(object.getDouble("rateBuy"));
+                model.setRateSell(object.getDouble("rateSell"));
 
-                return "Официальный курс " + model.getCcy() + " к украинской гривне:" + "\n" +
-                        "Покупка " + model.getBuy() + "\n" +
-                        "Продажа " + model.getSale();
+                return "Официальный курс " + currencyName + " к украинской гривне:" + "\n" +
+                        "Покупка" + model.getRateBuy() + "\n" +
+                        "Продажа" + model.getRateSell() + "\n";
             }
         }
         return "Курс валюты " + message + " Privat Bank не предоставляет";

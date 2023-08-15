@@ -63,11 +63,6 @@ public class Keyboard {
         gbpButton.setCallbackData("/gbp");
         row.add(gbpButton);
 
-        InlineKeyboardButton otherButton = new InlineKeyboardButton();
-        otherButton.setText("Другая");
-        otherButton.setCallbackData("/other");
-        row.add(otherButton);
-
         keyboard.add(row);
         inlineKeyboardMarkup.setKeyboard(keyboard);
 
