@@ -19,7 +19,7 @@ public class Massage {
     }
     private void sendStartInlineMessage(Long chatId, String textToSend) {
         Keyboard keyboard = new Keyboard();
-        InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.createKeyboard();
+        InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.startInlineKeyboard();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setText(textToSend);
@@ -36,5 +36,20 @@ public class Massage {
                 "Я могу предоставить информацию по некоторым темам" + "\n" +
                 "Выбери интересующую тебя тему";
         sendStartInlineMessage(chatId, answer);
+    }
+
+    void sendCurrencyInlineMessage(Long chatId) {
+        Keyboard keyboard = new Keyboard();
+        InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.currencyInlineKeyboard();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setText("Выбери интересующую тебя валюту:");
+
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException ignored) {
+        }
     }
 }

@@ -40,8 +40,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 String callbackData = update.getCallbackQuery().getData();
                 if (callbackData.equalsIgnoreCase("/currency")) {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    String messageText = update.getCallbackQuery().getMessage().getText();
-                   massage.sendMessage(chatId, "Выбери интересующую тебя валюту:");
+                   massage.sendCurrencyInlineMessage(chatId);
                 } else if (callbackData.equals("/news")) {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     massage.sendMessage(chatId, "In /news block");

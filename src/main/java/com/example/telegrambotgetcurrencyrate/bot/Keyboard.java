@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Keyboard {
-    InlineKeyboardMarkup createKeyboard() {
+    InlineKeyboardMarkup startInlineKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
@@ -26,6 +26,47 @@ public class Keyboard {
         weatherButton.setText("Погода");
         weatherButton.setCallbackData("/weather");
         row.add(weatherButton);
+
+        keyboard.add(row);
+        inlineKeyboardMarkup.setKeyboard(keyboard);
+
+        return inlineKeyboardMarkup;
+    }
+
+    InlineKeyboardMarkup currencyInlineKeyboard() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+
+        InlineKeyboardButton usdButton = new InlineKeyboardButton();
+        usdButton.setText("USD");
+        usdButton.setCallbackData("/usd");
+        row.add(usdButton);
+
+        InlineKeyboardButton eurButton = new InlineKeyboardButton();
+        eurButton.setText("EUR");
+        eurButton.setCallbackData("/eur");
+        row.add(eurButton);
+
+        InlineKeyboardButton rubButton = new InlineKeyboardButton();
+        rubButton.setText("RUB");
+        rubButton.setCallbackData("/rub");
+        row.add(rubButton);
+
+        InlineKeyboardButton plnButton = new InlineKeyboardButton();
+        plnButton.setText("PLN");
+        plnButton.setCallbackData("/pln");
+        row.add(plnButton);
+
+        InlineKeyboardButton gbpButton = new InlineKeyboardButton();
+        gbpButton.setText("GBP");
+        gbpButton.setCallbackData("/gbp");
+        row.add(gbpButton);
+
+        InlineKeyboardButton otherButton = new InlineKeyboardButton();
+        otherButton.setText("Другая");
+        otherButton.setCallbackData("/other");
+        row.add(otherButton);
 
         keyboard.add(row);
         inlineKeyboardMarkup.setKeyboard(keyboard);
