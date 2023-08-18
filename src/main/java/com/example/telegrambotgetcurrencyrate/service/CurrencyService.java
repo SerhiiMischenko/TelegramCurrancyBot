@@ -9,11 +9,19 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.Scanner;
 
 public class CurrencyService {
-    public static String getCurrencyRate(String message, CurrencyModel model) throws IOException, ParseException {
+
+    static void currencyModelInit(CurrencyModel model, double percent) {
+        model.setRateSell(model.getRateBuy() + (model.getRateBuy() * percent / 10));
+        BigDecimal roundedNumberSell = BigDecimal.valueOf(model.getRateSell()).setScale(2, RoundingMode.HALF_UP);
+        model.setRateSell(roundedNumberSell.doubleValue());
+        BigDecimal roundedNumberBuy = BigDecimal.valueOf(model.getRateBuy()).setScale(2, RoundingMode.HALF_UP);
+        model.setRateBuy(roundedNumberBuy.doubleValue());
+
+    }
+    public static String getCurrencyRate(String message, CurrencyModel model) throws IOException {
         URL url = new URL("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json");
         Scanner scanner = new Scanner((InputStream) url.getContent());
         StringBuilder result = new StringBuilder();
@@ -29,35 +37,15 @@ public class CurrencyService {
                 model.setCc(object.getString("cc"));
                 model.setRateBuy(object.getDouble("rate"));
                 if(model.getCc().equals("USD")) {
-                    model.setRateSell(model.getRateBuy() + (model.getRateBuy() * 0.5f / 10));
-                    BigDecimal roundedNumberSell = BigDecimal.valueOf(model.getRateSell()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateSell(roundedNumberSell.doubleValue());
-                    BigDecimal roundedNumberBuy = BigDecimal.valueOf(model.getRateBuy()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateBuy(roundedNumberBuy.doubleValue());
+                   currencyModelInit(model, 0.5);
                 }if(model.getCc().equals("EUR")) {
-                    model.setRateSell(model.getRateBuy() + (model.getRateBuy() * 0.6f / 10));
-                    BigDecimal roundedNumberSell = BigDecimal.valueOf(model.getRateSell()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateSell(roundedNumberSell.doubleValue());
-                    BigDecimal roundedNumberBuy = BigDecimal.valueOf(model.getRateBuy()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateBuy(roundedNumberBuy.doubleValue());
+                    currencyModelInit(model, 0.6);
                 }if(model.getCc().equals("RUB")) {
-                    model.setRateSell(model.getRateBuy() + (model.getRateBuy() * 0.2f / 10));
-                    BigDecimal roundedNumberSell = BigDecimal.valueOf(model.getRateSell()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateSell(roundedNumberSell.doubleValue());
-                    BigDecimal roundedNumberBuy = BigDecimal.valueOf(model.getRateBuy()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateBuy(roundedNumberBuy.doubleValue());
+                    currencyModelInit(model, 0.2);
                 }if(model.getCc().equals("PLN")) {
-                    model.setRateSell(model.getRateBuy() + (model.getRateBuy() * 0.2f / 10));
-                    BigDecimal roundedNumberSell = BigDecimal.valueOf(model.getRateSell()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateSell(roundedNumberSell.doubleValue());
-                    BigDecimal roundedNumberBuy = BigDecimal.valueOf(model.getRateBuy()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateBuy(roundedNumberBuy.doubleValue());
+                    currencyModelInit(model, 0.2);
                 }if(model.getCc().equals("GBP")) {
-                    model.setRateSell(model.getRateBuy() + (model.getRateBuy() * 0.365f / 10));
-                    BigDecimal roundedNumberSell = BigDecimal.valueOf(model.getRateSell()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateSell(roundedNumberSell.doubleValue());
-                    BigDecimal roundedNumberBuy = BigDecimal.valueOf(model.getRateBuy()).setScale(2, RoundingMode.HALF_UP);
-                    model.setRateBuy(roundedNumberBuy.doubleValue());
+                    currencyModelInit(model, 0.365);
                 }
                 model.setRateSell(model.getRateSell() );
 
