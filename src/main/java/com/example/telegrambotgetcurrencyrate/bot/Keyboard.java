@@ -27,6 +27,11 @@ public class Keyboard {
         weatherButton.setCallbackData("/weather");
         row.add(weatherButton);
 
+        InlineKeyboardButton aiButton = new InlineKeyboardButton();
+        aiButton.setText("Чат GPT");
+        aiButton.setCallbackData("/ai");
+        row.add(aiButton);
+
         keyboard.add(row);
         inlineKeyboardMarkup.setKeyboard(keyboard);
 

@@ -76,6 +76,10 @@ public class TelegramBot extends TelegramLongPollingBot {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     massage.sendMessage(chatId, "In /weather block");
                 }
+                else if (callbackData.equals("/ai")) {
+                    long chatId = update.getCallbackQuery().getMessage().getChatId();
+                    massage.sendMessage(chatId, "In /ai block");
+                }
             }
         }
 }
