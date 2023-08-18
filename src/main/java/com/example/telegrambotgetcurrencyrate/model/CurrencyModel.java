@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class CurrencyModel {
-    private Integer currencyCodeA;
+    private String cc;
     private Double rateBuy;
     private Double rateSell;
 }

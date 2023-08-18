@@ -45,27 +45,27 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 else if (callbackData.equals("/usd")) {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("840", currencyModel, "USD");
+                    currency = CurrencyService.getCurrencyRate("USD", currencyModel);
                     massage.sendMessage(chatId, currency);
                 }
                 else if (callbackData.equals("/eur")) {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("978", currencyModel, "EUR");
-                    massage.sendMessage(chatId, currency);
-                }
-                else if (callbackData.equals("/pln")) {
-                    long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("985", currencyModel, "PLN");
+                    currency = CurrencyService.getCurrencyRate("EUR", currencyModel);
                     massage.sendMessage(chatId, currency);
                 }
                 else if (callbackData.equals("/rub")) {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("643", currencyModel, "RUB");
+                    currency = CurrencyService.getCurrencyRate("RUB", currencyModel);
+                    massage.sendMessage(chatId, currency);
+                }
+                else if (callbackData.equals("/pln")) {
+                    long chatId = update.getCallbackQuery().getMessage().getChatId();
+                    currency = CurrencyService.getCurrencyRate("PLN", currencyModel);
                     massage.sendMessage(chatId, currency);
                 }
                 else if (callbackData.equals("/gbp")) {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("826", currencyModel, "GBP");
+                    currency = CurrencyService.getCurrencyRate("GBP", currencyModel);
                     massage.sendMessage(chatId, currency);
                 }
                 else if (callbackData.equals("/news")) {
