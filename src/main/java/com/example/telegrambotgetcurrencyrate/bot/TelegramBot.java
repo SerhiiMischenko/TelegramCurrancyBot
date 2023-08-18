@@ -78,8 +78,16 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 else if (callbackData.equals("/ai")) {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    massage.sendMessage(chatId, "In /ai block");
+                    massage.sendMessage(chatId, "Введите ваш вопрос для искусственного интеллекта:");
                 }
             }
+        if (update.hasMessage()) {
+            if (update.getMessage().hasText()) {
+                String messageText = update.getMessage().getText();
+                long chatId = update.getMessage().getChatId();
+                String gptResponse = GPTIntegration.generateGPTResponse(messageText);
+                massage.sendMessage(chatId, gptResponse);
+            }
+        }
         }
 }
