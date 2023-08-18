@@ -36,6 +36,10 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (messageText.equals("/start")) {
                 massage.startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
             }
+            if (update.getMessage().hasText() && !messageText.equals("/start")) {
+                String gptResponse = GPTIntegration.generateGPTResponse(messageText);
+                massage.sendMessage(chatId, gptResponse);
+            }
         }
         if (update.hasCallbackQuery()) {
                 String callbackData = update.getCallbackQuery().getData();
@@ -81,13 +85,5 @@ public class TelegramBot extends TelegramLongPollingBot {
                     massage.sendMessage(chatId, "Введите ваш вопрос для искусственного интеллекта:");
                 }
             }
-        if (update.hasMessage()) {
-            if (update.getMessage().hasText()) {
-                String messageText = update.getMessage().getText();
-                long chatId = update.getMessage().getChatId();
-                String gptResponse = GPTIntegration.generateGPTResponse(messageText);
-                massage.sendMessage(chatId, gptResponse);
-            }
-        }
         }
 }

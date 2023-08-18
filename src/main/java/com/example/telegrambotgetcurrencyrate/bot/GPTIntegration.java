@@ -3,16 +3,17 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.Duration;
+
 public class GPTIntegration {
     private static final String GPT_API_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
 
     public static String generateGPTResponse(String message) {
-        OkHttpClient client = new OkHttpClient();
-
+        OkHttpClient client = new OkHttpClient.Builder()
+                .callTimeout(Duration.ofSeconds(300))
+                .build();
         MediaType mediaType = MediaType.parse("application/json");
-
-        // Создаем JSON-строку для запроса
         String requestBody = "{\n" +
                 "    \"messages\": [\n" +
                 "        {\n" +
