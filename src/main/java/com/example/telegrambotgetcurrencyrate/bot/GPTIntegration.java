@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class GPTIntegration {
     private static final String GPT_API_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
 
     public static String generateGPTResponse(String message) {
         OkHttpClient client = new OkHttpClient();
