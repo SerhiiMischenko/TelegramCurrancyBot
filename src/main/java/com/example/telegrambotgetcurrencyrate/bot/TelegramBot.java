@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @AllArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
+    private final GPTService gptService;
 
 
     @Override
@@ -37,7 +38,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 massage.startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
             }
             if (update.getMessage().hasText() && !messageText.equals("/start")) {
-                String gptResponse = GPTService.generateGPTResponse(messageText);
+                String gptResponse = gptService.generateGPTResponse(messageText);
                 massage.sendMessage(chatId, gptResponse);
             }
         }

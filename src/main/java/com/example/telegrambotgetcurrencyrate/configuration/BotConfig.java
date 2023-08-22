@@ -7,10 +7,14 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @Data
-@PropertySource("application.properties")
+@PropertySource("config.properties")
 public class BotConfig {
     @Value("${bot.name}")
     String botName;
     @Value("${bot.token}")
     String token;
+    @Value("${GPTService.GPT_API_URL}")
+    String urlGPT;
+    @Value("${GPTService.tokenGPT}")
+    String tokenGPT;
 }

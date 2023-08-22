@@ -1,17 +1,21 @@
 package com.example.telegrambotgetcurrencyrate.service;
+import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
+import lombok.AllArgsConstructor;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-
+@Component
+@AllArgsConstructor
 public class GPTService {
-    private static final String GPT_API_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "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";
+    private final BotConfig botConfig;
+    public String generateGPTResponse(String message) {
 
-    public static String generateGPTResponse(String message) {
+
         OkHttpClient client = new OkHttpClient.Builder()
-                .callTimeout(Duration.ofSeconds(300))
+                .callTimeout(Duration.ofSeconds(30))
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         String requestBody = "{\n" +
@@ -31,20 +35,20 @@ public class GPTService {
         RequestBody body = RequestBody.create(mediaType, requestBody);
 
         Request request = new Request.Builder()
-                .url(GPT_API_URL)
-                .addHeader("Authorization", "Bearer " + API_KEY)
+                .url(botConfig.getUrlGPT())
+                .addHeader("Authorization", "Bearer " + botConfig.getTokenGPT())
                 .post(body)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
+                assert response.body() != null;
                 String responseBody = response.body().string();
                 JSONObject jsonResponse = new JSONObject(responseBody);
                 JSONArray choices = jsonResponse.getJSONArray("choices");
-                if (choices.length() > 0) {
+                if (!choices.isEmpty()) {
                     JSONObject choice = choices.getJSONObject(0);
-                    String messageValue = choice.getJSONObject("message").getString("content");
-                    return messageValue;
+                    return choice.getJSONObject("message").getString("content");
                 }
             }
         } catch (Exception e) {
