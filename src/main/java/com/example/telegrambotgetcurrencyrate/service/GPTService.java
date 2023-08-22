@@ -1,13 +1,13 @@
-package com.example.telegrambotgetcurrencyrate.bot;
+package com.example.telegrambotgetcurrencyrate.service;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.Duration;
 
-public class GPTIntegration {
+public class GPTService {
     private static final String GPT_API_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
 
     public static String generateGPTResponse(String message) {
         OkHttpClient client = new OkHttpClient.Builder()

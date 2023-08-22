@@ -2,7 +2,7 @@ package com.example.telegrambotgetcurrencyrate.bot;
 
 import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
 import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
-import com.example.telegrambotgetcurrencyrate.service.CurrencyService;
+import com.example.telegrambotgetcurrencyrate.service.GPTService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         CurrencyModel currencyModel = new CurrencyModel();
         Massage massage = new Massage(this);
-        String currency;
+        Handlers handlers = new Handlers();
         if (update.hasMessage()) {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
@@ -37,53 +37,30 @@ public class TelegramBot extends TelegramLongPollingBot {
                 massage.startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
             }
             if (update.getMessage().hasText() && !messageText.equals("/start")) {
-                String gptResponse = GPTIntegration.generateGPTResponse(messageText);
+                String gptResponse = GPTService.generateGPTResponse(messageText);
                 massage.sendMessage(chatId, gptResponse);
             }
         }
         if (update.hasCallbackQuery()) {
-                String callbackData = update.getCallbackQuery().getData();
-                if (callbackData.equalsIgnoreCase("/currency")) {
+            String callbackData = update.getCallbackQuery().getData();
+            switch (callbackData) {
+                case "/currency", "/usd", "/eur", "/rub", "/pln", "/gbp" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    massage.sendCurrencyInlineMessage(chatId);
+                    handlers.currencyHandler(callbackData, chatId, currencyModel, massage);
                 }
-                else if (callbackData.equals("/usd")) {
-                    long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("USD", currencyModel);
-                    massage.sendMessage(chatId, currency);
-                }
-                else if (callbackData.equals("/eur")) {
-                    long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("EUR", currencyModel);
-                    massage.sendMessage(chatId, currency);
-                }
-                else if (callbackData.equals("/rub")) {
-                    long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("RUB", currencyModel);
-                    massage.sendMessage(chatId, currency);
-                }
-                else if (callbackData.equals("/pln")) {
-                    long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("PLN", currencyModel);
-                    massage.sendMessage(chatId, currency);
-                }
-                else if (callbackData.equals("/gbp")) {
-                    long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    currency = CurrencyService.getCurrencyRate("GBP", currencyModel);
-                    massage.sendMessage(chatId, currency);
-                }
-                else if (callbackData.equals("/news")) {
+                case "/news" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     massage.sendMessage(chatId, "In /news block");
                 }
-                else if (callbackData.equals("/weather")) {
+                case "/weather" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     massage.sendMessage(chatId, "In /weather block");
                 }
-                else if (callbackData.equals("/ai")) {
+                case "/ai" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     massage.sendMessage(chatId, "Введите ваш вопрос для искусственного интеллекта:");
                 }
             }
         }
+    }
 }
