@@ -2,6 +2,7 @@ package com.example.telegrambotgetcurrencyrate.bot;
 
 import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
 import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
+import com.example.telegrambotgetcurrencyrate.model.NewsModel;
 import com.example.telegrambotgetcurrencyrate.service.GPTService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -29,6 +30,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         CurrencyModel currencyModel = new CurrencyModel();
+        NewsModel newsModel = new NewsModel();
         Massage massage = new Massage(this);
         Handlers handlers = new Handlers();
         if (update.hasMessage()) {
@@ -49,9 +51,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     handlers.currencyHandler(callbackData, chatId, currencyModel, massage);
                 }
-                case "/news" -> {
+                case "/news", "/worldNews", "/ukraineNews", "/sport", "/economy" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    massage.sendMessage(chatId, "In /news block");
+                    handlers.newsHandler(callbackData, chatId, newsModel, massage);
                 }
                 case "/weather" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();

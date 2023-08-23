@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Keyboard {
-    InlineKeyboardMarkup startInlineKeyboard() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        List<InlineKeyboardButton> row = new ArrayList<>();
+    private final InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+    private final List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+    private final List<InlineKeyboardButton> row = new ArrayList<>();
 
+
+
+    InlineKeyboardMarkup startInlineKeyboard() {
         InlineKeyboardButton currencyButton = new InlineKeyboardButton();
         currencyButton.setText("Курс валют");
         currencyButton.setCallbackData("/currency");
@@ -39,10 +41,6 @@ public class Keyboard {
     }
 
     InlineKeyboardMarkup currencyInlineKeyboard() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        List<InlineKeyboardButton> row = new ArrayList<>();
-
         InlineKeyboardButton usdButton = new InlineKeyboardButton();
         usdButton.setText("USD");
         usdButton.setCallbackData("/usd");
@@ -67,6 +65,33 @@ public class Keyboard {
         gbpButton.setText("GBP");
         gbpButton.setCallbackData("/gbp");
         row.add(gbpButton);
+
+        keyboard.add(row);
+        inlineKeyboardMarkup.setKeyboard(keyboard);
+
+        return inlineKeyboardMarkup;
+    }
+
+    InlineKeyboardMarkup newsInlineKeyboard() {
+        InlineKeyboardButton worldButton = new InlineKeyboardButton();
+        worldButton.setText("World");
+        worldButton.setCallbackData("/worldNews");
+        row.add(worldButton);
+
+        InlineKeyboardButton ukraineButton = new InlineKeyboardButton();
+        ukraineButton.setText("Ukraine");
+        ukraineButton.setCallbackData("/ukraineNews");
+        row.add(ukraineButton);
+
+        InlineKeyboardButton sportNews = new InlineKeyboardButton();
+        sportNews.setText("Sport");
+        sportNews.setCallbackData("/sport");
+        row.add(sportNews);
+
+        InlineKeyboardButton economicNews = new InlineKeyboardButton();
+        economicNews.setText("Economy");
+        economicNews.setCallbackData("/economy");
+        row.add(economicNews);
 
         keyboard.add(row);
         inlineKeyboardMarkup.setKeyboard(keyboard);
