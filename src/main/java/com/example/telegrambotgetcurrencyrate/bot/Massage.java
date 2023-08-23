@@ -58,7 +58,7 @@ public class Massage {
         InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.newsInlineKeyboard();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Выбери интересующую тебя тему:");
+        sendMessage.setText("В этом разделе ты можешь выбрать интересующие тебя темы:");
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 

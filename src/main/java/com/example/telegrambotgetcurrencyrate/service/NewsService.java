@@ -1,6 +1,5 @@
 package com.example.telegrambotgetcurrencyrate.service;
 
-import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
 import com.example.telegrambotgetcurrencyrate.model.NewsModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,9 +13,13 @@ import java.util.Scanner;
 public class NewsService {
     public static List<NewsModel> getNews(String message, NewsModel model) throws IOException {
         List<NewsModel> newsList = new ArrayList<>();
-
-        URL url = new URL("https://newsapi.org/v2/top-headlines?country=ua&category=" +
-                message + "&apiKey=3498a47b50d04a8c9de814627d912064");
+        URL url = null;
+        if(message.equals("top")) {
+            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&apiKey=3498a47b50d04a8c9de814627d912064");
+        }else {
+            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&category=" +
+                    message + "&apiKey=3498a47b50d04a8c9de814627d912064");
+        }
         Scanner scanner = new Scanner((InputStream) url.getContent());
         StringBuilder result = new StringBuilder();
         while (scanner.hasNext()){
@@ -45,8 +48,7 @@ public class NewsService {
     }
 
     public static String formatNews(NewsModel news) {
-        return "Источник: " + news.getName() + "\n" +
-                "Автор: " + news.getAuthor() + "\n" +
+        return  "Автор: " + news.getAuthor() + "\n" +
                 "Заголовок: " + news.getTitle() + "\n" +
                 "Ссылка на новость: " + news.getUrl() + "\n\n";
     }
