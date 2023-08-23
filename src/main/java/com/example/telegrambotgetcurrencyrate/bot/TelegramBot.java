@@ -51,7 +51,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     handlers.currencyHandler(callbackData, chatId, currencyModel, massage);
                 }
-                case "/news", "/worldNews", "/ukraineNews", "/sport", "/economy" -> {
+                case "/news", "/top", "/technology", "/sport", "/business" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     handlers.newsHandler(callbackData, chatId, newsModel, massage);
                 }

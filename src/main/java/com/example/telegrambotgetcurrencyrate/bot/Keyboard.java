@@ -74,23 +74,23 @@ public class Keyboard {
 
     InlineKeyboardMarkup newsInlineKeyboard() {
         InlineKeyboardButton worldButton = new InlineKeyboardButton();
-        worldButton.setText("World");
-        worldButton.setCallbackData("/worldNews");
+        worldButton.setText("Важные");
+        worldButton.setCallbackData("/top");
         row.add(worldButton);
 
         InlineKeyboardButton ukraineButton = new InlineKeyboardButton();
-        ukraineButton.setText("Ukraine");
-        ukraineButton.setCallbackData("/ukraineNews");
+        ukraineButton.setText("Технологии");
+        ukraineButton.setCallbackData("/technology");
         row.add(ukraineButton);
 
         InlineKeyboardButton sportNews = new InlineKeyboardButton();
-        sportNews.setText("Sport");
+        sportNews.setText("Спорт");
         sportNews.setCallbackData("/sport");
         row.add(sportNews);
 
         InlineKeyboardButton economicNews = new InlineKeyboardButton();
-        economicNews.setText("Economy");
-        economicNews.setCallbackData("/economy");
+        economicNews.setText("Финансы");
+        economicNews.setCallbackData("/business");
         row.add(economicNews);
 
         keyboard.add(row);

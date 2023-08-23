@@ -5,6 +5,8 @@ import com.example.telegrambotgetcurrencyrate.service.CurrencyService;
 import com.example.telegrambotgetcurrencyrate.service.NewsService;
 
 import java.io.IOException;
+import java.util.List;
+
 public class Handlers {
      void currencyHandler(String handler, long chatId, CurrencyModel currencyModel, Massage massage) throws IOException {
          String currency;
@@ -34,24 +36,31 @@ public class Handlers {
     }
 
     void newsHandler(String handler, long chatId, NewsModel newsModel, Massage massage) throws IOException {
-        String news;
         switch (handler) {
             case "/news" -> massage.sendNewsInlineMessage(chatId);
-            case "/worldNews" -> {
-                news = NewsService.getNews("World", newsModel);
-                massage.sendMessage(chatId, news);
+            case "/top" -> {
+                List<NewsModel> newsList  = NewsService.getNews("top", newsModel);
+                for (NewsModel news : newsList) {
+                    massage.sendMessage(chatId, NewsService.formatNews(news));
+                }
             }
-            case "/ukraineNews" -> {
-                news = NewsService.getNews("Ukraine", newsModel);
-                massage.sendMessage(chatId, news);
+            case "/technology" -> {
+                List<NewsModel> newsList  = NewsService.getNews("technology", newsModel);
+                for (NewsModel news : newsList) {
+                    massage.sendMessage(chatId, NewsService.formatNews(news));
+                }
             }
             case "/sport" -> {
-                news = NewsService.getNews("Sport", newsModel);
-                massage.sendMessage(chatId, news);
+                List<NewsModel> newsList  = NewsService.getNews("sport", newsModel);
+                for (NewsModel news : newsList) {
+                    massage.sendMessage(chatId, NewsService.formatNews(news));
+                }
             }
-            case "/economy" -> {
-                news = NewsService.getNews("Economy", newsModel);
-                massage.sendMessage(chatId, news);
+            case "/business" -> {
+                List<NewsModel> newsList  = NewsService.getNews("business", newsModel);
+                for (NewsModel news : newsList) {
+                    massage.sendMessage(chatId, NewsService.formatNews(news));
+                }
             }
         }
     }
