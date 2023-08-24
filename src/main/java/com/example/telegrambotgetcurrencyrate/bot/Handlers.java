@@ -43,24 +43,28 @@ public class Handlers {
                 for (NewsModel news : newsList) {
                     massage.sendMessage(chatId, NewsService.formatNews(news));
                 }
+                massage.sendBackMainMenuMessage(chatId);
             }
             case "/technology" -> {
                 List<NewsModel> newsList  = NewsService.getNews("technology", newsModel);
                 for (NewsModel news : newsList) {
                     massage.sendMessage(chatId, NewsService.formatNews(news));
                 }
+                massage.sendBackMainMenuMessage(chatId);
             }
             case "/sport" -> {
                 List<NewsModel> newsList  = NewsService.getNews("sport", newsModel);
                 for (NewsModel news : newsList) {
                     massage.sendMessage(chatId, NewsService.formatNews(news));
                 }
+                massage.sendBackMainMenuMessage(chatId);
             }
             case "/business" -> {
                 List<NewsModel> newsList  = NewsService.getNews("business", newsModel);
                 for (NewsModel news : newsList) {
                     massage.sendMessage(chatId, NewsService.formatNews(news));
                 }
+                massage.sendBackMainMenuMessage(chatId);
             }
         }
     }

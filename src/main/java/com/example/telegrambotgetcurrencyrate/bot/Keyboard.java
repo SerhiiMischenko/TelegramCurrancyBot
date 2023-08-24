@@ -1,7 +1,9 @@
 package com.example.telegrambotgetcurrencyrate.bot;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,30 +101,17 @@ public class Keyboard {
         return inlineKeyboardMarkup;
     }
 
-    InlineKeyboardMarkup newsInlineKeyboard() {
-        InlineKeyboardButton worldButton = new InlineKeyboardButton();
-        worldButton.setText("Важные");
-        worldButton.setCallbackData("/top");
-        row.add(worldButton);
+    ReplyKeyboardMarkup backMainMenu() {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setResizeKeyboard(true);
 
-        InlineKeyboardButton ukraineButton = new InlineKeyboardButton();
-        ukraineButton.setText("Технологии");
-        ukraineButton.setCallbackData("/technology");
-        row.add(ukraineButton);
-
-        InlineKeyboardButton sportNews = new InlineKeyboardButton();
-        sportNews.setText("Спорт");
-        sportNews.setCallbackData("/sport");
-        row.add(sportNews);
-
-        InlineKeyboardButton economicNews = new InlineKeyboardButton();
-        economicNews.setText("Финансы");
-        economicNews.setCallbackData("/business");
-        row.add(economicNews);
-
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow row = new KeyboardRow();
+        row.add("Вернуться в главное меню");
         keyboard.add(row);
-        inlineKeyboardMarkup.setKeyboard(keyboard);
 
-        return inlineKeyboardMarkup;
+        replyKeyboardMarkup.setKeyboard(keyboard);
+
+        return replyKeyboardMarkup;
     }
 }
