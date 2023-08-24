@@ -74,7 +74,7 @@ public class Massage {
         ReplyKeyboardMarkup replyKeyboardMarkup = keyboard.backMainMenu();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText(".");
+        sendMessage.setText("Для возврата к главному меню нажмите кнопку ниже ↓");
 
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
