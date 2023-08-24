@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class NewsService {
     public static List<NewsModel> getNews(String message, NewsModel model) throws IOException {
         List<NewsModel> newsList = new ArrayList<>();
-        URL url = null;
+        URL url;
         if(message.equals("top")) {
             url = new URL("https://newsapi.org/v2/top-headlines?country=ua&apiKey=3498a47b50d04a8c9de814627d912064");
         }else {

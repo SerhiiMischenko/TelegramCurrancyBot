@@ -98,4 +98,31 @@ public class Keyboard {
 
         return inlineKeyboardMarkup;
     }
+
+    InlineKeyboardMarkup newsInlineKeyboard() {
+        InlineKeyboardButton worldButton = new InlineKeyboardButton();
+        worldButton.setText("Важные");
+        worldButton.setCallbackData("/top");
+        row.add(worldButton);
+
+        InlineKeyboardButton ukraineButton = new InlineKeyboardButton();
+        ukraineButton.setText("Технологии");
+        ukraineButton.setCallbackData("/technology");
+        row.add(ukraineButton);
+
+        InlineKeyboardButton sportNews = new InlineKeyboardButton();
+        sportNews.setText("Спорт");
+        sportNews.setCallbackData("/sport");
+        row.add(sportNews);
+
+        InlineKeyboardButton economicNews = new InlineKeyboardButton();
+        economicNews.setText("Финансы");
+        economicNews.setCallbackData("/business");
+        row.add(economicNews);
+
+        keyboard.add(row);
+        inlineKeyboardMarkup.setKeyboard(keyboard);
+
+        return inlineKeyboardMarkup;
+    }
 }
