@@ -17,6 +17,8 @@ public class BotConfig {
     String urlGPT;
     @Value("${GPTService.tokenGPT}")
     String tokenGPT;
-    @Value("${newsService.tokenGPT}")
+    @Value("${newsService.tokenNews}")
     String tokenNews;
+    @Value("${weatherService.tokenWeather}")
+    String tokenWeather;
 }
