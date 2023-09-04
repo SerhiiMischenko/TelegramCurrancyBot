@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
 @Component
 @AllArgsConstructor
 public class GPTService {
@@ -15,7 +17,9 @@ public class GPTService {
 
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .callTimeout(Duration.ofSeconds(30))
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         String requestBody = "{\n" +
