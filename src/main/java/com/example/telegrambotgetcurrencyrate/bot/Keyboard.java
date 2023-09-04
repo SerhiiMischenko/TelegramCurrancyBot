@@ -114,4 +114,16 @@ public class Keyboard {
 
         return replyKeyboardMarkup;
     }
+
+    InlineKeyboardMarkup sendLocationInlineKeyboard() {
+        InlineKeyboardButton locationButton = new InlineKeyboardButton();
+        locationButton.setText("Отправить местоположение");
+        locationButton.setCallbackData("/location");
+        row.add(locationButton);
+
+        keyboard.add(row);
+        inlineKeyboardMarkup.setKeyboard(keyboard);
+
+        return inlineKeyboardMarkup;
+    }
 }
