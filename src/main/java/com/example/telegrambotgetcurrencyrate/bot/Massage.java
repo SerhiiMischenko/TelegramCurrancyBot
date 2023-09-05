@@ -83,4 +83,19 @@ public class Massage {
         } catch (TelegramApiException ignored) {
         }
     }
+
+    void sendLocationInlineMessage(Long chatId) {
+        Keyboard keyboard = new Keyboard();
+        InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.sendLocationInlineKeyboard();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setText("В этом разделе ты можешь выбрать интересующие тебя темы:");
+
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException ignored) {
+        }
+    }
 }

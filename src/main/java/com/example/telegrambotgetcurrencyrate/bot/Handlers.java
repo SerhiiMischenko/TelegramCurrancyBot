@@ -1,8 +1,10 @@
 package com.example.telegrambotgetcurrencyrate.bot;
 import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
 import com.example.telegrambotgetcurrencyrate.model.NewsModel;
+import com.example.telegrambotgetcurrencyrate.model.WeatherModel;
 import com.example.telegrambotgetcurrencyrate.service.CurrencyService;
 import com.example.telegrambotgetcurrencyrate.service.NewsService;
+import org.telegram.telegrambots.meta.api.objects.Location;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,6 +68,34 @@ public class Handlers {
                 }
                 massage.sendBackMainMenuMessage(chatId);
             }
+        }
+    }
+
+    void weatherHandler(String handler, long chatId, WeatherModel weatherModel, Massage massage, Location userLocation)
+            throws IOException {
+        double latitude;
+        double longitude;
+        switch (handler) {
+            case "/weather" -> massage.sendLocationInlineMessage(chatId);
+            case "/location" -> {
+                latitude = userLocation.getLatitude();
+                longitude = userLocation.getLongitude();
+                System.out.println(latitude + "   " + longitude);
+            }
+//            case "/tomorrow" -> {
+//                List<NewsModel> newsList  = NewsService.getNews("technology", newsModel);
+//                for (NewsModel news : newsList) {
+//                    massage.sendMessage(chatId, NewsService.formatNews(news));
+//                }
+//                massage.sendBackMainMenuMessage(chatId);
+//            }
+//            case "/days" -> {
+//                List<NewsModel> newsList  = NewsService.getNews("sport", newsModel);
+//                for (NewsModel news : newsList) {
+//                    massage.sendMessage(chatId, NewsService.formatNews(news));
+//                }
+//                massage.sendBackMainMenuMessage(chatId);
+//            }
         }
     }
 }

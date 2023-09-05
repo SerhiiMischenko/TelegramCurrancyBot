@@ -119,6 +119,7 @@ public class Keyboard {
         InlineKeyboardButton locationButton = new InlineKeyboardButton();
         locationButton.setText("Отправить местоположение");
         locationButton.setCallbackData("/location");
+
         row.add(locationButton);
 
         keyboard.add(row);

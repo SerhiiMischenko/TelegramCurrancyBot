@@ -3,11 +3,13 @@ package com.example.telegrambotgetcurrencyrate.bot;
 import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
 import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
 import com.example.telegrambotgetcurrencyrate.model.NewsModel;
+import com.example.telegrambotgetcurrencyrate.model.WeatherModel;
 import com.example.telegrambotgetcurrencyrate.service.GPTService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 @AllArgsConstructor
@@ -31,6 +33,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         CurrencyModel currencyModel = new CurrencyModel();
         NewsModel newsModel = new NewsModel();
+        WeatherModel weatherModel = new WeatherModel();
         Massage massage = new Massage(this);
         Handlers handlers = new Handlers();
         if (update.hasMessage()) {
@@ -56,9 +59,15 @@ public class TelegramBot extends TelegramLongPollingBot {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     handlers.newsHandler(callbackData, chatId, newsModel, massage);
                 }
-                case "/weather" -> {
+                case "/location" -> {
+                        long chatId = update.getCallbackQuery().getMessage().getChatId();
+                        Location userLocation = update.getCallbackQuery().getMessage().getLocation();
+                    System.out.println(userLocation);
+                        handlers.weatherHandler(callbackData, chatId, weatherModel, massage, userLocation);
+                }
+                case "/weather", "/today", "/tomorrow", "/days" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    massage.sendMessage(chatId, "In /weather block");
+                    handlers.weatherHandler(callbackData, chatId, weatherModel, massage, new Location());
                 }
                 case "/ai" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
