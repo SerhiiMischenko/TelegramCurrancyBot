@@ -85,13 +85,9 @@ public class Massage {
     }
 
     void sendLocationInlineMessage(Long chatId) {
-        Keyboard keyboard = new Keyboard();
-        InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.sendLocationInlineKeyboard();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Для точного прогноза погоды поделись своим местоположением ↓:");
-
-        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        sendMessage.setText("Для точного прогноза погоды поделись своим местоположением нажав на изображение скрепки ниже ↓:");
 
         try {
             telegramBot.execute(sendMessage);

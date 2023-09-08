@@ -6,16 +6,19 @@ import com.example.telegrambotgetcurrencyrate.model.NewsModel;
 import com.example.telegrambotgetcurrencyrate.model.WeatherModel;
 import com.example.telegrambotgetcurrencyrate.service.GPTService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
     private final GPTService gptService;
+    private Location userLocation;
+
 
 
     @Override
@@ -36,7 +39,10 @@ public class TelegramBot extends TelegramLongPollingBot {
         WeatherModel weatherModel = new WeatherModel();
         Massage massage = new Massage(this);
         Handlers handlers = new Handlers();
-        if (update.hasMessage()) {
+        if(update.hasMessage() && update.getMessage().hasLocation()) {
+            userLocation = update.getMessage().getLocation();
+        }
+        else if (update.hasMessage()) {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
             if (messageText.equals("/start") || messageText.equals("Вернуться в главное меню")) {
@@ -48,7 +54,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 massage.sendMessage(chatId, gptResponse);
             }
         }
-        if (update.hasCallbackQuery()) {
+        else if (update.hasCallbackQuery()) {
             String callbackData = update.getCallbackQuery().getData();
             switch (callbackData) {
                 case "/currency", "/usd", "/eur", "/rub", "/pln", "/gbp" -> {
@@ -61,8 +67,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 case "/location" -> {
                         long chatId = update.getCallbackQuery().getMessage().getChatId();
-                        Location userLocation = update.getCallbackQuery().getMessage().getLocation();
-                    System.out.println(userLocation);
                         handlers.weatherHandler(callbackData, chatId, weatherModel, massage, userLocation);
                 }
                 case "/weather", "/today", "/tomorrow", "/days" -> {

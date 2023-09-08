@@ -4,6 +4,7 @@ import com.example.telegrambotgetcurrencyrate.model.NewsModel;
 import com.example.telegrambotgetcurrencyrate.model.WeatherModel;
 import com.example.telegrambotgetcurrencyrate.service.CurrencyService;
 import com.example.telegrambotgetcurrencyrate.service.NewsService;
+import com.example.telegrambotgetcurrencyrate.service.WeatherService;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
 import java.io.IOException;
@@ -73,22 +74,17 @@ public class Handlers {
 
     void weatherHandler(String handler, long chatId, WeatherModel weatherModel, Massage massage, Location userLocation)
             throws IOException {
-        double latitude;
-        double longitude;
+        String latitude = String.valueOf(userLocation.getLatitude());
+        String longitude = String.valueOf(userLocation.getLongitude());
         switch (handler) {
             case "/weather" -> massage.sendLocationInlineMessage(chatId);
-            case "/location" -> {
-                latitude = userLocation.getLatitude();
-                longitude = userLocation.getLongitude();
-                System.out.println(latitude + "   " + longitude);
+            case "/today" -> {
+                List<WeatherModel> weatherList  = WeatherService.getWeather(latitude, longitude,weatherModel);
+                for (WeatherModel weather : weatherList) {
+                    massage.sendMessage(chatId, WeatherService.formatWeather(weather));
+                }
+                massage.sendBackMainMenuMessage(chatId);
             }
-//            case "/tomorrow" -> {
-//                List<NewsModel> newsList  = NewsService.getNews("technology", newsModel);
-//                for (NewsModel news : newsList) {
-//                    massage.sendMessage(chatId, NewsService.formatNews(news));
-//                }
-//                massage.sendBackMainMenuMessage(chatId);
-//            }
 //            case "/days" -> {
 //                List<NewsModel> newsList  = NewsService.getNews("sport", newsModel);
 //                for (NewsModel news : newsList) {
