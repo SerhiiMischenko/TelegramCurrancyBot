@@ -114,4 +114,26 @@ public class Keyboard {
 
         return replyKeyboardMarkup;
     }
+
+    InlineKeyboardMarkup weatherInlineKeyboard() {
+        InlineKeyboardButton todayButton = new InlineKeyboardButton();
+        todayButton.setText("Сегодня");
+        todayButton.setCallbackData("/today");
+        row.add(todayButton);
+
+        InlineKeyboardButton tomorrowButton = new InlineKeyboardButton();
+        tomorrowButton.setText("Завтра");
+        tomorrowButton.setCallbackData("/tomorrow");
+        row.add(tomorrowButton);
+
+        InlineKeyboardButton daysButton = new InlineKeyboardButton();
+        daysButton.setText("5 дней");
+        daysButton.setCallbackData("/days");
+        row.add(daysButton);
+
+        keyboard.add(row);
+        inlineKeyboardMarkup.setKeyboard(keyboard);
+
+        return inlineKeyboardMarkup;
+    }
 }

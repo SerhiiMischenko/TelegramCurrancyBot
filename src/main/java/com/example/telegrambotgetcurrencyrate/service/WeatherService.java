@@ -15,7 +15,8 @@ public class WeatherService {
     public static List<WeatherModel> getWeather(String latitude, String longitude, WeatherModel model) throws IOException {
         List<WeatherModel> weatherModels = new ArrayList<>();
         URL url;
-            url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=50.640205&lon=26.20678&appid=4b623f564d2180dec0cbe581211baf0e&lang=ru&units=metric");
+            url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
+                    "&lon=" + longitude + "&appid=4b623f564d2180dec0cbe581211baf0e&lang=ru&units=metric");
         Scanner scanner = new Scanner((InputStream) url.getContent());
         StringBuilder result = new StringBuilder();
         while (scanner.hasNext()){
@@ -23,30 +24,31 @@ public class WeatherService {
         }
 
         JSONObject jsonObject = new JSONObject(result.toString());
+        WeatherModel weatherModel = new WeatherModel();
+        weatherModel.setName(jsonObject.getString("name"));
 
-        if (jsonObject.getString("status").equals("ok")) {
-            JSONArray jsonArray = jsonObject.getJSONArray("articles");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject object = jsonArray.getJSONObject(i);
-                NewsModel newsModel = new NewsModel();
-                newsModel.setAuthor(object.getJSONObject("source").getString("name"));
-                newsModel.setTitle(object.getString("title"));
-                newsModel.setUrl(object.getString("url"));
-                newsList.add(newsModel);
-                if(i >= 5){
-                    break;
-                }
+            JSONArray descriptionArray = jsonObject.getJSONArray("weather");
+            for (int i = 0; i < descriptionArray.length(); i++) {
+                JSONObject object = descriptionArray.getJSONObject(i);
+                weatherModel.setDescription(object.getString("description"));
             }
-        }
+        JSONObject mainObject = jsonObject.getJSONObject("main");
+        weatherModel.setTemp(mainObject.getDouble("temp"));
+        weatherModel.setFeels_like((mainObject.getDouble("feels_like")));
+        weatherModel.setTemp_min((mainObject.getDouble("temp_min")));
+        weatherModel.setTemp_max((mainObject.getDouble("temp_max")));
 
-        return newsList;
+        weatherModels.add(weatherModel);
+
+        return weatherModels;
     }
 
     public static String formatWeather(WeatherModel weather) {
         return  "Ваш город: " + weather.getName() + "\n" +
                 "Сейчас на улице: " + weather.getDescription() + "\n" +
-                "Сейчас на улице: " + weather.getDescription() + "\n" +
-                "Температура воздуха: " + weather.getTemp() + "\n\n";
+                "Температура воздуха: " + weather.getTemp() + "\n" +
+                "Ощушается как: " + weather.getFeels_like() + "\n" +
+                "Минимальная температура: " + weather.getTemp_min() + "\n" +
+                "Максимальная температура: " + weather.getTemp_max() + "\n\n";
     }
 }

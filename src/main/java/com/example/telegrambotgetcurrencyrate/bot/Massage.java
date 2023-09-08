@@ -94,4 +94,19 @@ public class Massage {
         } catch (TelegramApiException ignored) {
         }
     }
+
+    void sendDaysWeatherInlineMessage(Long chatId) {
+        Keyboard keyboard = new Keyboard();
+        InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.weatherInlineKeyboard();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setText("Выбери колличество дней в прогнозе:");
+
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException ignored) {
+        }
+    }
 }

@@ -40,7 +40,9 @@ public class TelegramBot extends TelegramLongPollingBot {
         Massage massage = new Massage(this);
         Handlers handlers = new Handlers();
         if(update.hasMessage() && update.getMessage().hasLocation()) {
+            long chatId = update.getMessage().getChatId();
             userLocation = update.getMessage().getLocation();
+            massage.sendDaysWeatherInlineMessage(chatId);
         }
         else if (update.hasMessage()) {
             String messageText = update.getMessage().getText();
@@ -71,7 +73,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 case "/weather", "/today", "/tomorrow", "/days" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    handlers.weatherHandler(callbackData, chatId, weatherModel, massage, new Location());
+                    handlers.weatherHandler(callbackData, chatId, weatherModel, massage, userLocation);
                 }
                 case "/ai" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
