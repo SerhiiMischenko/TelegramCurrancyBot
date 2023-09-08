@@ -89,7 +89,7 @@ public class Massage {
         InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.sendLocationInlineKeyboard();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("В этом разделе ты можешь выбрать интересующие тебя темы:");
+        sendMessage.setText("Для точного прогноза погоды поделись своим местоположением ↓:");
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
