@@ -33,10 +33,10 @@ public class WeatherService {
                 weatherModel.setDescription(object.getString("description"));
             }
         JSONObject mainObject = jsonObject.getJSONObject("main");
-        weatherModel.setTemp(mainObject.getDouble("temp"));
-        weatherModel.setFeels_like((mainObject.getDouble("feels_like")));
-        weatherModel.setTemp_min((mainObject.getDouble("temp_min")));
-        weatherModel.setTemp_max((mainObject.getDouble("temp_max")));
+        weatherModel.setTemp((int) mainObject.getDouble("temp"));
+        weatherModel.setFeels_like((int) mainObject.getDouble("feels_like"));
+        weatherModel.setTemp_min((int) mainObject.getDouble("temp_min"));
+        weatherModel.setTemp_max((int) mainObject.getDouble("temp_max"));
 
         weatherModels.add(weatherModel);
 

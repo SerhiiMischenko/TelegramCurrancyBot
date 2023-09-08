@@ -77,7 +77,6 @@ public class Handlers {
         String latitude = String.valueOf(userLocation.getLatitude());
         String longitude = String.valueOf(userLocation.getLongitude());
         switch (handler) {
-            case "/weather" -> massage.sendLocationInlineMessage(chatId);
             case "/today" -> {
                 List<WeatherModel> weatherList  = WeatherService.getWeather(latitude, longitude,weatherModel);
                 for (WeatherModel weather : weatherList) {

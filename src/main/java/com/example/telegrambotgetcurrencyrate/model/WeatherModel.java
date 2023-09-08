@@ -6,8 +6,8 @@ import lombok.Data;
 public class WeatherModel {
     private String name;
     private String description;
-    private double temp;
-    private double feels_like;
-    private double temp_min;
-    private double temp_max;
+    private int temp;
+    private int feels_like;
+    private int temp_min;
+    private int temp_max;
 }

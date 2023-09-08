@@ -67,13 +67,13 @@ public class TelegramBot extends TelegramLongPollingBot {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
                     handlers.newsHandler(callbackData, chatId, newsModel, massage);
                 }
-                case "/location" -> {
+                case "/location", "/today", "/tomorrow", "/days" -> {
                         long chatId = update.getCallbackQuery().getMessage().getChatId();
                         handlers.weatherHandler(callbackData, chatId, weatherModel, massage, userLocation);
                 }
-                case "/weather", "/today", "/tomorrow", "/days" -> {
+                case "/weather" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    handlers.weatherHandler(callbackData, chatId, weatherModel, massage, userLocation);
+                    massage.sendLocationInlineMessage(chatId);
                 }
                 case "/ai" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
