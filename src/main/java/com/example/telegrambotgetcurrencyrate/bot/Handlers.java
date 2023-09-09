@@ -72,25 +72,25 @@ public class Handlers {
         }
     }
 
-    void weatherHandler(String handler, long chatId, WeatherModel weatherModel, Massage massage, Location userLocation)
+    void weatherHandler(String handler, long chatId, Massage massage, Location userLocation)
             throws IOException {
         String latitude = String.valueOf(userLocation.getLatitude());
         String longitude = String.valueOf(userLocation.getLongitude());
         switch (handler) {
             case "/today" -> {
-                List<WeatherModel> weatherList  = WeatherService.getWeather(latitude, longitude,weatherModel);
+                List<WeatherModel> weatherList  = WeatherService.getTodayWeather(latitude, longitude);
                 for (WeatherModel weather : weatherList) {
                     massage.sendMessage(chatId, WeatherService.formatWeather(weather));
                 }
                 massage.sendBackMainMenuMessage(chatId);
             }
-//            case "/days" -> {
-//                List<NewsModel> newsList  = NewsService.getNews("sport", newsModel);
-//                for (NewsModel news : newsList) {
-//                    massage.sendMessage(chatId, NewsService.formatNews(news));
-//                }
-//                massage.sendBackMainMenuMessage(chatId);
-//            }
+            case "/tomorrow" -> {
+                List<WeatherModel> weatherModels  = WeatherService.getTomorrowWeather(latitude, longitude);
+                for (WeatherModel weather : weatherModels) {
+                    massage.sendMessage(chatId, WeatherService.formatWeather(weather));
+                }
+                massage.sendBackMainMenuMessage(chatId);
+            }
         }
     }
 }

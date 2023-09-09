@@ -1,6 +1,5 @@
 package com.example.telegrambotgetcurrencyrate.service;
 
-import com.example.telegrambotgetcurrencyrate.model.NewsModel;
 import com.example.telegrambotgetcurrencyrate.model.WeatherModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class WeatherService {
-    public static List<WeatherModel> getWeather(String latitude, String longitude, WeatherModel model) throws IOException {
+    public static List<WeatherModel> getTodayWeather(String latitude, String longitude) throws IOException {
         List<WeatherModel> weatherModels = new ArrayList<>();
         URL url;
             url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
@@ -43,12 +42,32 @@ public class WeatherService {
         return weatherModels;
     }
 
+    public static List<WeatherModel> getTomorrowWeather(String latitude, String longitude) throws IOException {
+        List<WeatherModel> weatherModels = new ArrayList<>();
+        URL url;
+        url = new URL("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude +
+                "&lon=" + longitude + "&appid=4b623f564d2180dec0cbe581211baf0e&lang=ru&" +
+                "units=metric&exclude=current,minutely,hourly");
+        Scanner scanner = new Scanner((InputStream) url.getContent());
+        StringBuilder result = new StringBuilder();
+        while (scanner.hasNext()){
+            result.append(scanner.nextLine());
+        }
+
+        JSONObject jsonObject = new JSONObject(result.toString());
+        JSONArray dailyArray = jsonObject.getJSONArray("daily");
+
+
+
+        return weatherModels;
+    }
+
     public static String formatWeather(WeatherModel weather) {
-        return  "Ваш город: " + weather.getName() + "\n" +
+        return  "Ваше местонахождение: " + weather.getName() + "\n" +
                 "Сейчас на улице: " + weather.getDescription() + "\n" +
-                "Температура воздуха: " + weather.getTemp() + "\n" +
-                "Ощушается как: " + weather.getFeels_like() + "\n" +
-                "Минимальная температура: " + weather.getTemp_min() + "\n" +
-                "Максимальная температура: " + weather.getTemp_max() + "\n\n";
+                "Температура воздуха: " + weather.getTemp() + " ℃ \n" +
+                "Ощушается как: " + weather.getFeels_like() + "  ℃ \n" +
+                "Минимальная температура: " + weather.getTemp_min() + "  ℃ \n" +
+                "Максимальная температура: " + weather.getTemp_max() + "  ℃ \n\n";
     }
 }

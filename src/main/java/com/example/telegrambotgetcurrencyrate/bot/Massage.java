@@ -87,7 +87,7 @@ public class Massage {
     void sendLocationInlineMessage(Long chatId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Для точного прогноза погоды поделись своим местоположением нажав на изображение скрепки ниже ↓:");
+        sendMessage.setText("Для точного прогноза погоды поделись своей геолокацией, нажав на изображение скрепки ниже ↓:");
 
         try {
             telegramBot.execute(sendMessage);
