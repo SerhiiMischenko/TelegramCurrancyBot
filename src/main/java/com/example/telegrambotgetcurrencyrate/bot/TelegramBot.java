@@ -2,10 +2,8 @@ package com.example.telegrambotgetcurrencyrate.bot;
 
 import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
 import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
-import com.example.telegrambotgetcurrencyrate.model.NewsModel;
-import com.example.telegrambotgetcurrencyrate.model.WeatherModel;
 import com.example.telegrambotgetcurrencyrate.service.GPTService;
-import lombok.AllArgsConstructor;
+import com.example.telegrambotgetcurrencyrate.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -17,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
     private final GPTService gptService;
+    private final Handlers handlers;
     private Location userLocation;
 
 
@@ -34,11 +33,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        CurrencyModel currencyModel = new CurrencyModel();
-        NewsModel newsModel = new NewsModel();
-        WeatherModel weatherModel = new WeatherModel();
         Massage massage = new Massage(this);
-        Handlers handlers = new Handlers();
+
         if(update.hasMessage() && update.getMessage().hasLocation()) {
             long chatId = update.getMessage().getChatId();
             userLocation = update.getMessage().getLocation();
@@ -61,11 +57,11 @@ public class TelegramBot extends TelegramLongPollingBot {
             switch (callbackData) {
                 case "/currency", "/usd", "/eur", "/rub", "/pln", "/gbp" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    handlers.currencyHandler(callbackData, chatId, currencyModel, massage);
+                    handlers.currencyHandler(callbackData, chatId, new CurrencyModel(), massage);
                 }
                 case "/news", "/top", "/technology", "/sport", "/business" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    handlers.newsHandler(callbackData, chatId, newsModel, massage);
+                    handlers.newsHandler(callbackData, chatId, massage);
                 }
                 case "/location", "/today", "/tomorrow", "/days" -> {
                         long chatId = update.getCallbackQuery().getMessage().getChatId();

@@ -1,8 +1,6 @@
 package com.example.telegrambotgetcurrencyrate.model;
 
 import lombok.Data;
-
-
 @Data
 public class CurrencyModel {
     private String cc;

@@ -2,10 +2,15 @@ package com.example.telegrambotgetcurrencyrate.service;
 
 import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
 import com.example.telegrambotgetcurrencyrate.model.WeatherModel;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -17,10 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
-
+@Service
 @RequiredArgsConstructor
+@Data
 public class WeatherService {
     private final BotConfig botConfig;
+
     static String unixTimeEncoder(long unixTimeStamp) {
         Instant instant = Instant.ofEpochSecond(unixTimeStamp);
         LocalDate date = instant.atZone(ZoneId.of("UTC")).toLocalDate();
@@ -47,18 +54,18 @@ public class WeatherService {
         return result.toString();
     }
 
-    public static List<WeatherModel> getTodayWeather(String latitude, String longitude) {
+    public List<WeatherModel> getTodayWeather(String latitude, String longitude) {
         ArrayList<WeatherModel> weatherModels = new ArrayList<>();
         weatherModels.add(getWeatherModels(latitude, longitude, 0));
         return weatherModels;
     }
 
-    public static List<WeatherModel> getTomorrowWeather(String latitude, String longitude) {
+    public List<WeatherModel> getTomorrowWeather(String latitude, String longitude) {
         ArrayList<WeatherModel> weatherModels = new ArrayList<>();
         weatherModels.add(getWeatherModels(latitude, longitude, 1));
         return weatherModels;
     }
-    public static List<WeatherModel> getDaysWeather(String latitude, String longitude) {
+    public List<WeatherModel> getDaysWeather(String latitude, String longitude) {
         ArrayList<WeatherModel> weatherModels = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             weatherModels.add(getWeatherModels(latitude, longitude, i));
@@ -67,9 +74,9 @@ public class WeatherService {
     }
 
     @NotNull
-    private static WeatherModel getWeatherModels(String latitude, String longitude, int dayCount) {
+    private WeatherModel getWeatherModels(String latitude, String longitude, int dayCount) {
         String url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude +
-                "&exclude=hourly&appid=5373f6c55cd9dbc4b37f3452e86182e8&lang=ru&units=metric";
+                "&exclude=hourly&appid=" + botConfig.getTokenWeather() + "&lang=ru&units=metric";
         JSONObject jsonObject = new JSONObject(urlParser(url));
         JSONArray dailyArray = jsonObject.getJSONArray("daily");
         WeatherModel weatherModel = new WeatherModel();

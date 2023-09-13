@@ -1,24 +1,30 @@
 package com.example.telegrambotgetcurrencyrate.service;
 
+import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
 import com.example.telegrambotgetcurrencyrate.model.NewsModel;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+@Service
+@RequiredArgsConstructor
 public class NewsService {
-    public static List<NewsModel> getNews(String message, NewsModel model) throws IOException {
+    private final BotConfig botConfig;
+    public List<NewsModel> getNews(String message) throws IOException {
         List<NewsModel> newsList = new ArrayList<>();
         URL url;
         if(message.equals("top")) {
-            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&apiKey=3498a47b50d04a8c9de814627d912064");
+            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&apiKey=" + botConfig.getTokenNews());
         }else {
             url = new URL("https://newsapi.org/v2/top-headlines?country=ua&category=" +
-                    message + "&apiKey=3498a47b50d04a8c9de814627d912064");
+                    message + "&apiKey=" + botConfig.getTokenNews());
         }
         Scanner scanner = new Scanner((InputStream) url.getContent());
         StringBuilder result = new StringBuilder();

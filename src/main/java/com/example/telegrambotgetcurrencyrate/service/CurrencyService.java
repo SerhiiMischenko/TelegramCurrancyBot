@@ -3,6 +3,7 @@ package com.example.telegrambotgetcurrencyrate.service;
 import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.Scanner;
-
+@Service
 public class CurrencyService {
 
     static void currencyModelInit(CurrencyModel model, double percent) {

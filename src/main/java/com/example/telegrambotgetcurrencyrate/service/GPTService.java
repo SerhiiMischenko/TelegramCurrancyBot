@@ -5,10 +5,11 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Service
 @AllArgsConstructor
 public class GPTService {
     private final BotConfig botConfig;
