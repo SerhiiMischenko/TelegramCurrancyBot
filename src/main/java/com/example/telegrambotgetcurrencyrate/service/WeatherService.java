@@ -48,16 +48,26 @@ public class WeatherService {
     }
 
     public static List<WeatherModel> getTodayWeather(String latitude, String longitude) {
-        return getWeatherModels(latitude, longitude, 0);
+        ArrayList<WeatherModel> weatherModels = new ArrayList<>();
+        weatherModels.add(getWeatherModels(latitude, longitude, 0));
+        return weatherModels;
     }
 
     public static List<WeatherModel> getTomorrowWeather(String latitude, String longitude) {
-        return getWeatherModels(latitude, longitude, 1);
+        ArrayList<WeatherModel> weatherModels = new ArrayList<>();
+        weatherModels.add(getWeatherModels(latitude, longitude, 1));
+        return weatherModels;
+    }
+    public static List<WeatherModel> getDaysWeather(String latitude, String longitude) {
+        ArrayList<WeatherModel> weatherModels = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            weatherModels.add(getWeatherModels(latitude, longitude, i));
+        }
+        return weatherModels;
     }
 
     @NotNull
-    private static List<WeatherModel> getWeatherModels(String latitude, String longitude, int dayCount) {
-        ArrayList<WeatherModel> weatherModels = new ArrayList<>();
+    private static WeatherModel getWeatherModels(String latitude, String longitude, int dayCount) {
         String url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude +
                 "&exclude=hourly&appid=5373f6c55cd9dbc4b37f3452e86182e8&lang=ru&units=metric";
         JSONObject jsonObject = new JSONObject(urlParser(url));
@@ -79,9 +89,7 @@ public class WeatherService {
         weatherModel.setTemp_min((int) tempJson.getDouble("min"));
         weatherModel.setTemp_max((int) tempJson.getDouble("max"));
 
-        weatherModels.add(weatherModel);
-
-        return weatherModels;
+        return weatherModel;
     }
 
     public static String formatWeather(WeatherModel weather) {

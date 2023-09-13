@@ -6,12 +6,8 @@ import com.example.telegrambotgetcurrencyrate.service.CurrencyService;
 import com.example.telegrambotgetcurrencyrate.service.NewsService;
 import com.example.telegrambotgetcurrencyrate.service.WeatherService;
 import org.telegram.telegrambots.meta.api.objects.Location;
-
 import java.io.IOException;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
-import java.time.LocalDate;
 
 public class Handlers {
      void currencyHandler(String handler, long chatId, CurrencyModel currencyModel, Massage massage) throws IOException {
@@ -75,13 +71,11 @@ public class Handlers {
         }
     }
 
-    void weatherHandler(String handler, long chatId, Massage massage, Location userLocation)
-            throws IOException {
+    void weatherHandler(String handler, long chatId, Massage massage, Location userLocation) {
         String latitude = String.valueOf(userLocation.getLatitude());
         String longitude = String.valueOf(userLocation.getLongitude());
         switch (handler) {
             case "/today" -> {
-                String status = "today";
                 List<WeatherModel> weatherList  = WeatherService.getTodayWeather(latitude, longitude);
                 for (WeatherModel weather : weatherList) {
                     massage.sendMessage(chatId, WeatherService.formatWeather(weather));
@@ -90,6 +84,13 @@ public class Handlers {
             }
             case "/tomorrow" -> {
                 List<WeatherModel> weatherModels  = WeatherService.getTomorrowWeather(latitude, longitude);
+                for (WeatherModel weather : weatherModels) {
+                    massage.sendMessage(chatId, WeatherService.formatWeather(weather));
+                }
+                massage.sendBackMainMenuMessage(chatId);
+            }
+            case "/days" -> {
+                List<WeatherModel> weatherModels  = WeatherService.getDaysWeather(latitude, longitude);
                 for (WeatherModel weather : weatherModels) {
                     massage.sendMessage(chatId, WeatherService.formatWeather(weather));
                 }
