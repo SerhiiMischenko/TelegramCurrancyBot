@@ -3,6 +3,7 @@ package com.example.telegrambotgetcurrencyrate.service;
 import com.example.telegrambotgetcurrencyrate.configuration.BotConfig;
 import com.example.telegrambotgetcurrencyrate.model.NewsModel;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -19,20 +20,7 @@ public class NewsService {
     private final BotConfig botConfig;
     public List<NewsModel> getNews(String message) throws IOException {
         List<NewsModel> newsList = new ArrayList<>();
-        URL url;
-        if(message.equals("top")) {
-            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&apiKey=" + botConfig.getTokenNews());
-        }else {
-            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&category=" +
-                    message + "&apiKey=" + botConfig.getTokenNews());
-        }
-        Scanner scanner = new Scanner((InputStream) url.getContent());
-        StringBuilder result = new StringBuilder();
-        while (scanner.hasNext()){
-            result.append(scanner.nextLine());
-        }
-
-        JSONObject jsonObject = new JSONObject(result.toString());
+        JSONObject jsonObject = getJsonObject(message);
 
         if (jsonObject.getString("status").equals("ok")) {
             JSONArray jsonArray = jsonObject.getJSONArray("articles");
@@ -51,6 +39,24 @@ public class NewsService {
         }
 
         return newsList;
+    }
+
+    @NotNull
+    private JSONObject getJsonObject(String message) throws IOException {
+        URL url;
+        if(message.equals("top")) {
+            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&apiKey=" + botConfig.getTokenNews());
+        }else {
+            url = new URL("https://newsapi.org/v2/top-headlines?country=ua&category=" +
+                    message + "&apiKey=" + botConfig.getTokenNews());
+        }
+        Scanner scanner = new Scanner((InputStream) url.getContent());
+        StringBuilder result = new StringBuilder();
+        while (scanner.hasNext()){
+            result.append(scanner.nextLine());
+        }
+
+        return new JSONObject(result.toString());
     }
 
     public static String formatNews(NewsModel news) {
