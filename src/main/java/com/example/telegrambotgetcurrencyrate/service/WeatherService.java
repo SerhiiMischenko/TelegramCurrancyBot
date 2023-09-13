@@ -81,9 +81,10 @@ public class WeatherService {
         JSONArray dailyArray = jsonObject.getJSONArray("daily");
         WeatherModel weatherModel = new WeatherModel();
         String urlCity = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
-                "&lon=" + longitude + "&appid=5373f6c55cd9dbc4b37f3452e86182e8&lang=ru&units=metric";
+                "&lon=" + longitude + "&appid=" + botConfig.getTokenWeather() + "&lang=ru&units=metric";
         JSONObject dailyJson = dailyArray.getJSONObject(dayCount);
         weatherModel.setDate(unixTimeEncoder(dailyJson.getLong("dt")));
+        weatherModel.setWind_speed(dailyJson.getDouble("wind_speed"));
         JSONObject nameJson = new JSONObject(urlParser(urlCity));
         weatherModel.setName(nameJson.getString("name"));
         JSONArray descriptionArray = dailyJson.getJSONArray("weather");
@@ -106,6 +107,7 @@ public class WeatherService {
                 "Температура воздуха: " + weather.getTemp() + " ℃ \n" +
                 "Ощушается как: " + weather.getFeels_like() + "  ℃ \n" +
                 "Минимальная температура: " + weather.getTemp_min() + "  ℃ \n" +
-                "Максимальная температура: " + weather.getTemp_max() + "  ℃ \n\n";
+                "Максимальная температура: " + weather.getTemp_max() + " ℃ \n" +
+                "Скорость ветра: " + weather.getWind_speed() + "  м/с \n\n";
     }
 }

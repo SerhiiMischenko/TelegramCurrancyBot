@@ -13,4 +13,5 @@ public class WeatherModel {
     private int feels_like;
     private int temp_min;
     private int temp_max;
+    private double wind_speed;
 }
