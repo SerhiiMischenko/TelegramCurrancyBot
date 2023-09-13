@@ -82,19 +82,19 @@ public class Handlers {
         switch (handler) {
             case "/today" -> {
                 String status = "today";
-                List<WeatherModel> weatherList  = WeatherService.getWeather(latitude, longitude, status);
+                List<WeatherModel> weatherList  = WeatherService.getTodayWeather(latitude, longitude);
                 for (WeatherModel weather : weatherList) {
                     massage.sendMessage(chatId, WeatherService.formatWeather(weather));
                 }
                 massage.sendBackMainMenuMessage(chatId);
             }
-//            case "/tomorrow" -> {
-//                List<WeatherModel> weatherModels  = WeatherService.getTomorrowWeather(latitude, longitude);
-//                for (WeatherModel weather : weatherModels) {
-//                    massage.sendMessage(chatId, WeatherService.formatWeather(weather));
-//                }
-//                massage.sendBackMainMenuMessage(chatId);
-//            }
+            case "/tomorrow" -> {
+                List<WeatherModel> weatherModels  = WeatherService.getTomorrowWeather(latitude, longitude);
+                for (WeatherModel weather : weatherModels) {
+                    massage.sendMessage(chatId, WeatherService.formatWeather(weather));
+                }
+                massage.sendBackMainMenuMessage(chatId);
+            }
         }
     }
 }
