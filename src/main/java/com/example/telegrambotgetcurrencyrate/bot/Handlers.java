@@ -28,10 +28,6 @@ public class Handlers {
                  currency = CurrencyService.getCurrencyRate("EUR", currencyModel);
                  massage.sendMessage(chatId, currency);
              }
-             case "/rub" -> {
-                 currency = CurrencyService.getCurrencyRate("RUB", currencyModel);
-                 massage.sendMessage(chatId, currency);
-             }
              case "/pln" -> {
                  currency = CurrencyService.getCurrencyRate("PLN", currencyModel);
                  massage.sendMessage(chatId, currency);

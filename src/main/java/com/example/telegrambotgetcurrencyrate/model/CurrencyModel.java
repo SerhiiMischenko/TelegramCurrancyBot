@@ -3,7 +3,7 @@ package com.example.telegrambotgetcurrencyrate.model;
 import lombok.Data;
 @Data
 public class CurrencyModel {
-    private String cc;
-    private Double rateBuy;
-    private Double rateSell;
+    private String currencyBase;
+    private Double rateBid;
+    private Double rateAsk;
 }

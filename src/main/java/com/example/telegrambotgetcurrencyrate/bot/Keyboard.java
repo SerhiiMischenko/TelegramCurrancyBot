@@ -53,11 +53,6 @@ public class Keyboard {
         eurButton.setCallbackData("/eur");
         row.add(eurButton);
 
-        InlineKeyboardButton rubButton = new InlineKeyboardButton();
-        rubButton.setText("RUB");
-        rubButton.setCallbackData("/rub");
-        row.add(rubButton);
-
         InlineKeyboardButton plnButton = new InlineKeyboardButton();
         plnButton.setText("PLN");
         plnButton.setCallbackData("/pln");

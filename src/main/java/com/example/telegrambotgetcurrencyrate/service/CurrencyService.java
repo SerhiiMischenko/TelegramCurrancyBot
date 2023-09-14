@@ -4,57 +4,49 @@ import com.example.telegrambotgetcurrencyrate.model.CurrencyModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.net.URL;
-import java.util.Scanner;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 @Service
 public class CurrencyService {
-
-    static void currencyModelInit(CurrencyModel model, double percent) {
-        model.setRateSell(model.getRateBuy() + (model.getRateBuy() * percent / 10));
-        BigDecimal roundedNumberSell = BigDecimal.valueOf(model.getRateSell()).setScale(2, RoundingMode.HALF_UP);
-        model.setRateSell(roundedNumberSell.doubleValue());
-        BigDecimal roundedNumberBuy = BigDecimal.valueOf(model.getRateBuy()).setScale(2, RoundingMode.HALF_UP);
-        model.setRateBuy(roundedNumberBuy.doubleValue());
-
-    }
     public static String getCurrencyRate(String message, CurrencyModel model) throws IOException {
-        URL url = new URL("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json");
-        Scanner scanner = new Scanner((InputStream) url.getContent());
-        StringBuilder result = new StringBuilder();
-        while (scanner.hasNext()){
-            result.append(scanner.nextLine());
-        }
+        String url = "https://obmenka.kharkov.ua";
+        Document doc = Jsoup.connect(url).get();
 
-        JSONArray jsonArray = new JSONArray(result.toString());
+        Elements scriptElements = doc.select("script");
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject object = jsonArray.getJSONObject(i);
-            if(object.getString("cc").equalsIgnoreCase(message)){
-                model.setCc(object.getString("cc"));
-                model.setRateBuy(object.getDouble("rate"));
-                if(model.getCc().equals("USD")) {
-                   currencyModelInit(model, 0.5);
-                }if(model.getCc().equals("EUR")) {
-                    currencyModelInit(model, 0.6);
-                }if(model.getCc().equals("RUB")) {
-                    currencyModelInit(model, 0.2);
-                }if(model.getCc().equals("PLN")) {
-                    currencyModelInit(model, 0.2);
-                }if(model.getCc().equals("GBP")) {
-                    currencyModelInit(model, 0.365);
+        for (Element scriptElement : scriptElements) {
+            String scriptContent = scriptElement.html();
+            if (scriptContent.contains("\"rates\":")) {
+                String startMarker = "\"rates\":[{";
+                String endMarker = "}],";
+
+                int startIndex = scriptContent.indexOf(startMarker);
+                int endIndex = scriptContent.lastIndexOf(endMarker);
+
+                if (startIndex != -1 && endIndex != -1) {
+                    String extractedText = "{" + scriptContent.substring(startIndex, endIndex + endMarker.length() - 1) + "}";
+                    JSONObject jsonArray = new JSONObject(extractedText);
+                    JSONArray rateArray = jsonArray.getJSONArray("rates");
+                    for (int i = 0; i < rateArray.length(); i++) {
+                        JSONObject rateJson = rateArray.getJSONObject(i);
+                        if(rateJson.getString("currencyBase").equalsIgnoreCase(message)) {
+                            model.setCurrencyBase(rateJson.getString("currencyBase"));
+                            model.setRateBid(rateJson.getDouble("rateBid"));
+                            model.setRateAsk(rateJson.getDouble("rateAsk"));
+                        }
+                    }
+                } else {
+                    System.out.println("Start and end markers not found.");
                 }
-                model.setRateSell(model.getRateSell() );
-
-                return "Официальный курс " + model.getCc() + " к украинской гривне:" + "\n" +
-                        "Покупка " + model.getRateBuy() + "." + "\n" +
-                        "Продажа " + model.getRateSell() + "." + "\n";
             }
         }
-        return "Курс валюты " + message + " Privat Bank не предоставляет";
+        return "Официальный курс украинской гривны к " + model.getCurrencyBase() + ":" + "\n" +
+                "Покупка " + model.getRateBid() + " грн." + "\n" +
+                "Продажа " + model.getRateAsk() + " грн." + "\n";
+
     }
 }
