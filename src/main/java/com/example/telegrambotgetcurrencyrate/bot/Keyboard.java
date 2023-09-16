@@ -17,7 +17,7 @@ public class Keyboard {
 
     InlineKeyboardMarkup startInlineKeyboard() {
         InlineKeyboardButton currencyButton = new InlineKeyboardButton();
-        currencyButton.setText("Курс валют");
+        currencyButton.setText("Курс валютnnnn");
         currencyButton.setCallbackData("/currency");
         row.add(currencyButton);
 
