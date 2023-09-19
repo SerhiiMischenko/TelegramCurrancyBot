@@ -24,11 +24,16 @@ jobs:
 
     - name: Stop the Running Project
       run: |
-        echo "$SSH_PRIVATE_KEY" > ssh_key.pem
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key.pem
         chmod 600 ssh_key.pem
         if pgrep -f "telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
         ssh -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
         fi
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Set up environment
+      run: echo "SSH_PRIVATE_KEY=$SSH_PRIVATE_KEY" >> $GITHUB_ENV
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
