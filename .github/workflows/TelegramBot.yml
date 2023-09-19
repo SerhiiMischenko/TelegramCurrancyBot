@@ -30,6 +30,7 @@ jobs:
 
     - name: Deploy to AWS
       run: |
+        ssh-keyscan -H 3.79.25.199 >> ~/.ssh/known_hosts
         echo "$SSH_PRIVATE_KEY" > ssh_key.pem
         chmod 600 ssh_key.pem
         scp -i ssh_key.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.79.25.199:/home/ubuntu/
