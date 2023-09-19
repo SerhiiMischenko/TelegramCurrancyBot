@@ -38,6 +38,6 @@ jobs:
 
     - name: Deploy to AWS
       run: |
-        scp -i $AWS_SSH_KEY -r ./target/myproject.jar $AWS_USER@$AWS_SERVER_IP:/path/to/remote/directory
+        scp -i $SSH_PRIVATE_KEY -r /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.79.25.199:/home/ubuntu/
         ssh -i "bot.pem" ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com
 
