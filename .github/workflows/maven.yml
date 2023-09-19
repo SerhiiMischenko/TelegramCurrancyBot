@@ -18,7 +18,7 @@ jobs:
 
     - name: Stop the Running Project
       run: |
-        ssh -i ssh -i "bot.pem" ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+        ssh -i /Users/serhiimischenko/.ssh ssh -i /Users/serhiimischenko/.ssh/bot.pem ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
 
 
     - name: Build with Maven
