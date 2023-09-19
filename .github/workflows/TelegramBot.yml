@@ -30,7 +30,6 @@ jobs:
 
     - name: Deploy to AWS
       run: |
-        ssh-keyscan -H 3.79.25.199 >> ~/.ssh/known_hosts
         echo "$SSH_PRIVATE_KEY" > ssh_key.pem
         chmod 600 ssh_key.pem
         ssh -i ssh_key.pem -o StrictHostKeyChecking=no 3.79.25.199
