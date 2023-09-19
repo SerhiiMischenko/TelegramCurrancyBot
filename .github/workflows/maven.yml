@@ -18,7 +18,9 @@ jobs:
         
     - name: Add SSH known host
       run: |
-        ssh-keyscan -H ec2-3-79-25-199.eu-central-1.compute.amazonaws.com >> ~/.ssh/known_hosts
+        mkdir -p $HOME/.ssh
+        ssh-keyscan -H ec2-3-79-25-199.eu-central-1.compute.amazonaws.com >> $HOME/.ssh/known_hosts
+
 
     - name: Stop the Running Project
       run: |
