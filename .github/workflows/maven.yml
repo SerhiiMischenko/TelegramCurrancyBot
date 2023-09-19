@@ -1,5 +1,3 @@
-name: maven
-
 on: [push]
 
 jobs:
@@ -21,21 +19,22 @@ jobs:
         mkdir -p $HOME/.ssh
         ssh-keyscan -H ec2-3-79-25-199.eu-central-1.compute.amazonaws.com >> $HOME/.ssh/known_hosts
 
-    - name: Set up environment
-      run: echo "SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}" >> $GITHUB_ENV
 
     - name: Stop the Running Project
       run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key.pem
+        echo "$SSH_PRIVATE_KEY" > ssh_key.pem
         chmod 600 ssh_key.pem
         if pgrep -f "telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
         ssh -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
         fi
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
+        
     - name: Build with Maven
       run: mvn clean install -DskipTests
 
     - name: Deploy to AWS
       run: |
-        scp -i ssh_key.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.79.25.199:/home/ubuntu/
-        ssh -i ssh_key.pem ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com
+        scp -i "$SSH_PRIVATE_KEY" /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.79.25.199:/home/ubuntu/
+        ssh -i "$SSH_PRIVATE_KEY" ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com
