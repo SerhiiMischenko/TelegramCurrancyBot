@@ -29,7 +29,4 @@ jobs:
 
     - name: Deploy to AWS
       run: |
-        echo "$SSH_PRIVATE_KEY" > ssh_key.pem
-        chmod 400 ssh_key.pem
-        scp -i ssh_key.pem -o StrictHostKeyChecking=no /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.69.234.225:/home/ubuntu/
-        ssh -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-69-234-225.eu-central-1.compute.amazonaws.com
+        scp -i ${{ secrets.SSH_PRIVATE_KEY }} /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.69.234.225:/home/ubuntu/
