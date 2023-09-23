@@ -13,20 +13,19 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
+        
+    - name: Build with Maven
+      run: mvn clean install -DskipTests
 
     - name: Stop the Running Project
       run: |
         echo "$SSH_PRIVATE_KEY" > ssh_key.pem
         if pgrep -f "telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
-        ssh -i ssh_key.pem -o StrictHostKeyChecking=no ec2-3-69-234-225.eu-central-1.compute.amazonaws.com "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+        ssh -i ssh_key.pem -o StrictHostKeyChecking=no ec2-3-66-171-180.eu-central-1.compute.amazonaws.com "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
         fi
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-        
-    - name: Build with Maven
-      run: mvn clean install -DskipTests
-
     - name: Deploy to AWS
       run: |
-        scp -i ssh_key.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.69.234.225:/home/ubuntu/
+        scp -i ssh_key.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
