@@ -24,13 +24,6 @@ jobs:
       run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 400 ssh_key.pem
-
-    - name: Update known_hosts
-      run: |
-        ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> $HOME/.ssh/known_hosts
-        ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> /etc/ssh/ssh_known_hosts
-
-
         
     - name: Build with Maven
       run: mvn clean install -DskipTests
