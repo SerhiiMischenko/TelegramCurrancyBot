@@ -14,6 +14,14 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
 
+    - name: Create home directory and known_hosts
+      run: |
+        mkdir -p $HOME/.ssh
+        touch $HOME/.ssh/known_hosts
+        ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> $HOME/.ssh/known_hosts
+        ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> /etc/ssh/ssh_known_hosts
+
+
     - name: Set up SSH key
       run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
