@@ -21,7 +21,7 @@ jobs:
 
     - name: Update known_hosts
       run: |
-        ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> $HOME/.ssh/known_hosts
+        ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> /home/ubuntu/.ssh/known_hosts
         ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> /etc/ssh/ssh_known_hosts
 
         
