@@ -38,4 +38,4 @@ jobs:
 
     - name: Deploy to AWS
       run: |
-        scp -i ssh_key.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
+        scp -i ${{ secrets.SSH_SECRET_KEY }} /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
