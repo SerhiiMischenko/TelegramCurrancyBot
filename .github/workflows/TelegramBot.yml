@@ -27,6 +27,9 @@ jobs:
       run: |
           echo "$SSH_SECRET_KEY" > ssh_key.pem
           chmod 400 ssh_key.pem
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_SECRET_KEY }}
+
 
     - name: Deploy to AWS
       run: |
