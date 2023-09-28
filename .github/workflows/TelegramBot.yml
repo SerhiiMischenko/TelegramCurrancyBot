@@ -34,8 +34,6 @@ jobs:
         else
           echo "Process not found, no need to stop."
         fi
-        background: true
-
 
     - name: Deploy the New JAR
       run: |
