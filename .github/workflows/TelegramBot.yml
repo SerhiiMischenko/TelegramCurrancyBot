@@ -19,11 +19,6 @@ jobs:
         mkdir -p $HOME/.ssh
         touch $HOME/.ssh/known_hosts
         ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> $HOME/.ssh/known_hosts
-
-    - name: Transfer config.properties
-      run: |
-        echo "${{ secrets.CONFIG_PROPERTIES }}" > config.properties
-        scp -i ~/.ssh/private.key config.properties ubuntu@3.66.171.180:/home/ubuntu/  
         
     - name: Build with Maven
       run: | 
@@ -31,6 +26,11 @@ jobs:
         mkdir -p ~/.ssh/
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
         chmod 600 ~/.ssh/private.key
+
+    - name: Transfer config.properties
+      run: |
+        echo "${{ secrets.CONFIG_PROPERTIES }}" > config.properties
+        scp -i ~/.ssh/private.key config.properties ubuntu@3.66.171.180:/home/ubuntu/  
 
     - name: Stop the Old Application
       run: |
