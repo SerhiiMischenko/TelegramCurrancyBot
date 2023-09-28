@@ -22,9 +22,8 @@ jobs:
 
     - name: Transfer config.properties
       run: |
-        echo ${{ secrets.CONFIG_PROPERTIES }} | base64 -d > config.properties
-        scp -i ~/.ssh/private.key config.properties ubuntu@3.66.171.180:/home/ubuntu
-  
+        echo "${{ secrets.CONFIG_PROPERTIES }}" > config.properties
+        scp -i ~/.ssh/private.key config.properties ubuntu@3.66.171.180:/home/ubuntu/  
         
     - name: Build with Maven
       run: | 
