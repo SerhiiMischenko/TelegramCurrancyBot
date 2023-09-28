@@ -13,28 +13,36 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
-        
-    - name: Add SSH known host
+
+    - name: Create home directory and known_hosts
       run: |
         mkdir -p $HOME/.ssh
-        ssh-keyscan -H ec2-3-79-25-199.eu-central-1.compute.amazonaws.com >> $HOME/.ssh/known_hosts
-
-
-    - name: Stop the Running Project
-      run: |
-        echo "$SSH_PRIVATE_KEY" > ssh_key.pem
-        chmod 600 ssh_key.pem
-        if pgrep -f "telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
-        ssh -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
-        fi
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
+        touch $HOME/.ssh/known_hosts
+        ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> $HOME/.ssh/known_hosts
         
     - name: Build with Maven
-      run: mvn clean install -DskipTests
+      run: | 
+        mvn clean install -DskipTests
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
+        chmod 600 ~/.ssh/private.key
 
-    - name: Deploy to AWS
+    - name: Stop the Old Application
       run: |
-        scp -i "$SSH_PRIVATE_KEY" /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.79.25.199:/home/ubuntu/
-        ssh -i "$SSH_PRIVATE_KEY" ubuntu@ec2-3-79-25-199.eu-central-1.compute.amazonaws.com
+        if pgrep -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar > /dev/null; then
+          ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+        else
+          echo "Process not found, no need to stop."
+        fi
+
+    - name: Remove Old JAR
+      run: |
+        ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "rm -f /home/ubuntu/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+
+    - name: Deploy the New JAR
+      run: |
+        scp -i ~/.ssh/private.key target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
+        
+    - name: Start the New Application in Background
+      run: |
+        ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "nohup java -jar /home/ubuntu/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &"
