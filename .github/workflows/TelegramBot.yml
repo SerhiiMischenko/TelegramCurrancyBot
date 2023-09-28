@@ -21,16 +21,13 @@ jobs:
         ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> $HOME/.ssh/known_hosts
         
     - name: Build with Maven
-      run: mvn clean install -DskipTests
-
-    - name: Set up SSH key
-      run: |
-          echo "$SSH_SECRET_KEY" > ssh_key.pem
-          chmod 400 ssh_key.pem
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_SECRET_KEY }}
+      run: | 
+        mvn clean install -DskipTests
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
+        chmod 600 ~/.ssh/private.key
 
 
     - name: Deploy to AWS
       run: |
-        scp -i ssh_key.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
+        scp -i ~/.ssh/private.key /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
