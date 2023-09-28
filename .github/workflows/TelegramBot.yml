@@ -27,7 +27,6 @@ jobs:
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
         chmod 600 ~/.ssh/private.key
 
-
     - name: Deploy to AWS
       run: |
-        scp -i ~/.ssh/private.key /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
+        scp -i ~/.ssh/private.key target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
