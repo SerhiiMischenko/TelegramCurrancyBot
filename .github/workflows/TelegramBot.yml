@@ -23,6 +23,11 @@ jobs:
     - name: Build with Maven
       run: mvn clean install -DskipTests
 
+    - name: Set up SSH key
+      run: |
+          echo "$SSH_SECRET_KEY" > ssh_key.pem
+          chmod 400 ssh_key.pem
+
     - name: Deploy to AWS
       run: |
-        scp -i /Users/serhiimischenko/.ssh/bot.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
+        scp -i ssh_key.pem /Users/serhiimischenko/IdeaProjects/TelegramCurrancyBot/target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
