@@ -27,6 +27,15 @@ jobs:
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
         chmod 600 ~/.ssh/private.key
 
-    - name: Deploy to AWS
+    - name: Stop the Old Application
+      run: |
+        ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+
+    - name: Deploy the New JAR
       run: |
         scp -i ~/.ssh/private.key target/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar ubuntu@3.66.171.180:/home/ubuntu/
+        
+    - name: Start the New Application
+      run: |
+        ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "nohup java -jar /home/ubuntu/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar &"
+
