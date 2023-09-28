@@ -29,7 +29,12 @@ jobs:
 
     - name: Stop the Old Application
       run: |
-        ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+        if pgrep -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar > /dev/null; then
+          ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+        else
+          echo "Process not found, no need to stop."
+        fi
+
 
     - name: Deploy the New JAR
       run: |
