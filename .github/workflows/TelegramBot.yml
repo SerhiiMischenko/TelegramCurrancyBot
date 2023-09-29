@@ -22,14 +22,15 @@ jobs:
 
     - name: Create config.properties
       run: |
-        echo "${{ secrets.CONFIG_PROPERTIES }}" > config.properties
+        echo "${{ secrets.CONFIG_PROPERTIES }}" > src/main/resources/config.properties
 
     - name: Build with Maven
       run: |
-        mvn clean install -DskipTests -Dconfig.file=config.properties
+        mvn clean install -DskipTests -Dconfig.file=src/main/resources/config.properties
         mkdir -p ~/.ssh/
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
         chmod 600 ~/.ssh/private.key
+
 
     - name: Stop the Old Application
       run: |
