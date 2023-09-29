@@ -34,13 +34,20 @@ jobs:
 
     - name: Stop the Old Application
       run: |
-        pkill -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
-        sleep 5  # Подождите 5 секунд для завершения процесса
-        if pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
-          echo "Process not terminated properly."
+        pids=$(pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar")
+        if [ -n "$pids" ]; then
+          echo "Terminating processes: $pids"
+          kill "$pids"
+          sleep 5  # Подождите 5 секунд для завершения процесса
+          if pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
+            echo "Process not terminated properly."
+          else
+            echo "Process terminated successfully."
+          fi
         else
-          echo "Process terminated successfully."
+          echo "No matching processes found."
         fi
+
 
     - name: Remove Old JAR
       run: |
