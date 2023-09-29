@@ -41,6 +41,8 @@ jobs:
         else
           echo "No matching Java process found."
         fi
+      shell: bash
+
 
 
     - name: Remove Old JAR
