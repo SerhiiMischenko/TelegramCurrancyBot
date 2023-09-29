@@ -30,8 +30,7 @@ jobs:
         mkdir -p ~/.ssh/
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
         chmod 600 ~/.ssh/private.key
-
-
+        
     - name: Terminate Java Process
       run: |
         process_id=$(pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar")
@@ -41,9 +40,6 @@ jobs:
         else
           echo "No matching Java process found."
         fi
-      shell: bash
-
-
 
     - name: Remove Old JAR
       run: |
