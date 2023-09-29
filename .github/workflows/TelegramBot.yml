@@ -20,13 +20,14 @@ jobs:
         touch $HOME/.ssh/known_hosts
         ssh-keyscan -t ecdsa,rsa,ed25519 3.66.171.180 >> $HOME/.ssh/known_hosts
 
-    - name: Create config.properties
-      run: |
-        echo "${{ secrets.CONFIG_PROPERTIES }}" > config.properties
-        cat config.properties
-
     - name: Build with Maven
       run: |
+        echo "bot.name=${{ secrets.BOT_NAME }}" >> config.properties
+        echo "bot.token=${{ secrets.BOT_TOKEN }}" >> config.properties
+        echo "GPTService.GPT_API_URL=${{ secrets.GPT_API_URL }}" >> config.properties
+        echo "GPTService.tokenGPT=${{ secrets.GPT_TOKEN }}" >> config.properties
+        echo "newsService.tokenNews=${{ secrets.NEWS_TOKEN }}" >> config.properties
+        echo "weatherService.tokenWeather=${{ secrets.WEATHER_TOKEN }}" >> config.properties
         mvn clean install -DskipTests -Dconfig.file=config.properties
         mkdir -p ~/.ssh/
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
