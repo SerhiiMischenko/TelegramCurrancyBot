@@ -34,10 +34,12 @@ jobs:
 
     - name: Stop the Old Application
       run: |
-        if pgrep -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar > /dev/null; then
-          ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+        pkill -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
+        sleep 5  # Подождите 5 секунд для завершения процесса
+        if pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
+          echo "Process not terminated properly."
         else
-          echo "Process not found, no need to stop."
+          echo "Process terminated successfully."
         fi
 
     - name: Remove Old JAR
