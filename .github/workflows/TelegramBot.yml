@@ -39,6 +39,7 @@ jobs:
           echo "Terminating processes: $pids"
           kill "$pids"
           sleep 5  # Подождите 5 секунд для завершения процесса
+          pkill -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
           if pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar" > /dev/null; then
             echo "Process not terminated properly."
           else
@@ -47,7 +48,6 @@ jobs:
         else
           echo "No matching processes found."
         fi
-
 
     - name: Remove Old JAR
       run: |
