@@ -30,15 +30,14 @@ jobs:
         mkdir -p ~/.ssh/
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
         chmod 600 ~/.ssh/private.key
-        
-    - name: Terminate Java Process
+
+
+    - name: Stop the Old Application
       run: |
-        process_id=$(pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar")
-        if [ -n "$process_id" ]; then
-          echo "Terminating Java process with PID: $process_id"
-          kill "$process_id"
+        if pgrep -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar > /dev/null; then
+          ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
         else
-          echo "No matching Java process found."
+          echo "Process not found, no need to stop."
         fi
 
     - name: Remove Old JAR
