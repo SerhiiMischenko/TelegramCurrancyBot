@@ -37,6 +37,7 @@ jobs:
         if [ -n "$pids" ]; then
           echo "Terminating processes: $pids"
           for pid in $pids; do
+            echo "Killing process $pid"
             kill "$pid"
           done
           sleep 10  # Подождите 10 секунд для завершения процессов
