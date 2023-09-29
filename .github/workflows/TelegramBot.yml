@@ -23,6 +23,7 @@ jobs:
     - name: Create config.properties
       run: |
         echo "${{ secrets.CONFIG_PROPERTIES }}" > config.properties
+        cat config.properties
 
     - name: Build with Maven
       run: |
