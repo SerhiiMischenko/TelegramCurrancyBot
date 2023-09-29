@@ -31,30 +31,15 @@ jobs:
         echo "${{ secrets.SSH_SECRET_KEY }}" > ~/.ssh/private.key
         chmod 600 ~/.ssh/private.key
 
+
     - name: Stop the Old Application
       run: |
-        pids=$(pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar")
-        if [ -n "$pids" ]; then
-          echo "Terminating processes: $pids"
-          for pid in $pids; do
-            echo "Killing process $pid"
-            kill "$pid"
-          done
-          sleep 10  # Подождите 10 секунд для завершения процессов
-          pids=$(pgrep -f "java -jar telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar")
-          if [ -n "$pids" ]; then
-            echo "Some processes were not terminated properly."
-            for pid in $pids; do
-              echo "Process $pid is still running."
-            done
-          else
-            echo "All processes terminated successfully."
-          fi
+        if pgrep -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar > /dev/null; then
+          ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "pkill -f telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
         else
-          echo "No matching processes found."
+          echo "Process not found, no need to stop."
         fi
 
-    
     - name: Remove Old JAR
       run: |
         ssh -i ~/.ssh/private.key ubuntu@3.66.171.180 "rm -f /home/ubuntu/telegram-bot-get-currency-rate-0.0.1-SNAPSHOT.jar"
