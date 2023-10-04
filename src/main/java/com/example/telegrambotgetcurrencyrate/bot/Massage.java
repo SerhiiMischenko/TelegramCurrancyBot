@@ -1,7 +1,6 @@
 package com.example.telegrambotgetcurrencyrate.bot;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -33,10 +32,10 @@ public class Massage {
         }
     }
     void startCommandReceived(Long chatId, String name) {
-        String answer = "Приветствую \uD83D\uDC4B, " + name + "." + "\n" +
+        String answer = "Приветствую \uD83D\uDC4B, "  + name + "." + "\n" +
                 "Я могу предоставить информацию \uD83D\uDCDD по некоторым темам." + "\n" +
                 "Также есть возможность задать любой вопрос искуственному интелекту \uD83E\uDD16." + "\n" +
-                "Выбери интересующую тебя тему: \u2B07\uFE0F";
+                "Выбери интересующую тебя тему: ⬇️";
         sendStartInlineMessage(chatId, answer);
     }
 
@@ -45,7 +44,7 @@ public class Massage {
         InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.currencyInlineKeyboard();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Выбери интересующую тебя валюту:");
+        sendMessage.setText("Выбери интересующую тебя валюту \uD83D\uDCB5 \uD83D\uDCB4 \uD83D\uDCB6 \uD83D\uDCB7:");
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
@@ -60,7 +59,7 @@ public class Massage {
         InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.newsInlineKeyboard();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("В этом разделе ты можешь выбрать интересующие тебя темы:");
+        sendMessage.setText("В этом разделе ты можешь выбрать интересующие тебя темы \uD83D\uDCFA:");
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
@@ -75,7 +74,7 @@ public class Massage {
         ReplyKeyboardMarkup replyKeyboardMarkup = keyboard.backMainMenu();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Для возврата к главному меню нажмите кнопку ниже ↓");
+        sendMessage.setText("Для возврата к главному меню нажмите кнопку ниже ⬇️");
 
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
@@ -88,7 +87,9 @@ public class Massage {
     void sendLocationInlineMessage(Long chatId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Для точного прогноза погоды поделись своей геолокацией, нажав на изображение скрепки ниже ↓:");
+        sendMessage.setText("Для точного прогноза погоды \uD83C\uDF26️ " +
+                "поделись своей геолокацией, нажав на изображение скрепки " +
+                "\uD83D\uDCCE ниже ⬇️ и поделись своим местоположением\uD83D\uDCCD:");
 
         try {
             telegramBot.execute(sendMessage);

@@ -73,7 +73,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 case "/ai" -> {
                     long chatId = update.getCallbackQuery().getMessage().getChatId();
-                    massage.sendMessage(chatId, "Введите ваш вопрос для искусственного интеллекта:");
+                    massage.sendMessage(chatId, "Введите ваш вопрос для искусственного интеллекта \uD83E\uDD16:");
                 }
             }
         }
