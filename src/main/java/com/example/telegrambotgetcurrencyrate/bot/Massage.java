@@ -44,7 +44,7 @@ public class Massage {
         InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.currencyInlineKeyboard();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Выбери интересующую тебя валюту \uD83D\uDCB5 \uD83D\uDCB4 \uD83D\uDCB6 \uD83D\uDCB7:");
+        sendMessage.setText("Выбери интересующую тебя валюту \uD83D\uDCB5 \uD83D\uDCB6 \uD83D\uDCB4 \uD83D\uDCB7:");
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
