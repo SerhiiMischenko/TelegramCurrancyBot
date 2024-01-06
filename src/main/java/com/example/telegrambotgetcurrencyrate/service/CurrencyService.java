@@ -13,10 +13,11 @@ import org.jsoup.select.Elements;
 @Service
 public class CurrencyService {
     public static String getCurrencyRate(String message, CurrencyModel model) throws IOException {
-        String url = "https://obmenka.kharkov.ua";
+        String url = "https://obmin.rivne.ua/ru";
         Document doc = Jsoup.connect(url).get();
 
         Elements scriptElements = doc.select("script");
+        System.out.println(scriptElements);
 
         for (Element scriptElement : scriptElements) {
             String scriptContent = scriptElement.html();
