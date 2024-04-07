@@ -17,7 +17,6 @@ public class CurrencyService {
         Document doc = Jsoup.connect(url).get();
 
         Elements scriptElements = doc.select("script");
-        System.out.println(scriptElements);
 
         for (Element scriptElement : scriptElements) {
             String scriptContent = scriptElement.html();
