@@ -9,5 +9,4 @@ public class TelegramBotGetCurrencyRateApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TelegramBotGetCurrencyRateApplication.class, args);
 	}
-	//sout delete
 }
